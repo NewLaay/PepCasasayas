@@ -5,6 +5,8 @@ function ordenarArray($arrayNumeros){
     for($i=0;$i<count($arrayNumeros);$i++){
         for ($j=$i+1;$j<count($arrayNumeros);$j++){
             if($arrayNumeros[$j]<$arrayNumeros[$i]){
+                /* Lo que hacemos es declarar una variable temporal, que nos permitirá intercambiar de posición los números
+                para asi ir ordenando el array*/
                 $min = $arrayNumeros[$i];
                 $arrayNumeros[$i] = $arrayNumeros[$j];
                 $arrayNumeros[$j] = $min;
