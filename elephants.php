@@ -10,7 +10,7 @@ function getSortedElephantsByNumber($elephants){
 
     for ($i = 0; $i<count($elephants);$i++){
         for ($j = $i + 1; $j<count($elephants);$j++){
-            if (intval($elephants[$j]['number'])<intval($elephants[$i]['number'])){
+            if ($elephants[$j]['number']<$elephants[$i]['number']){
                 $aux = $elephants[$i];
                 $elephants[$i]= $elephants[$j];
                 $elephants[$j]= $aux;
