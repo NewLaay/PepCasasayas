@@ -10,9 +10,9 @@ function mapCities()
     //TODO: Your code here
     global $cities;
     global $countries;
-    for($i=0;$i<count($cities);$i++){
-        for($j=0;$j<count($countries);$j++){
-            if($cities[$i]['CountryCode']=$countries[$j]['Code']){
+    for ($i = 0; $i < count($cities); $i++) {
+        for ($j = 0; $j < count($countries); $j++) {
+            if ($cities[$i]['CountryCode'] == $countries[$j]['Code']) {
                 $cities[$i]['Pais'] = $countries[$j]['Name'];
             }
         }
@@ -25,16 +25,21 @@ function mapCountries()
     /* Aqui hay que añadir el nombre de las ciudades que tiene un determinado pais. El nombre de las ciudades se guarda en un array. */
     global $cities;
     global $countries;
-    for($i=0;$i<count($countries);$i++){
-        for($j=0;$j<count($cities);$j++){
-            if($countries[$i]['Code']=$cities[$j]['CountryCode']){
-
+    $arrayCities = array();
+    for ($i = 0; $i < count($countries); $i++) {
+        for ($j = 0; $j < count($cities); $j++) {
+            if ($cities[$j]['CountryCode'] == $countries[$i]['Code']) {
+                $arrayCities[] = $cities[$j]['Name'];
             }
         }
+        $countries[$i]['Ciudades'] = $arrayCities;
     }
     return $countries;
+
+
 }
 
 var_dump($cities[0]);
-var_dump($countries[0]);
 var_dump(mapCities()[0]);
+var_dump($countries[0]);
+var_dump(mapCountries());
