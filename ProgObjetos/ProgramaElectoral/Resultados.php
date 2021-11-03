@@ -2,14 +2,18 @@
 
 class Resultados
 {
-    private $district;
-    private $party;
-    private $votes;
+    private District $district;
+    private Party $party;
+    private int $votes;
+    private int $escanos;
+    private int $votosEscanos;
 
     /**
      * @param $district
      * @param $party
      * @param $votes
+     * @param $escanos
+     * @param $votosEscanos
      */
     public function __construct($district, $party, $votes)
     {
@@ -64,6 +68,38 @@ class Resultados
     public function setVotes($votes)
     {
         $this->votes = $votes;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEscanos()
+    {
+        return $this->escanos;
+    }
+
+    /**
+     * @param mixed $escanos
+     */
+    public function setEscanos($escanos)
+    {
+        $this->escanos = $escanos;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVotosEscanos()
+    {
+        return $this->votosEscanos;
+    }
+
+    /**
+     * @param mixed $votosEscanos
+     */
+    public function setVotosEscanos($votosEscanos)
+    {
+        $this->votosEscanos = $votosEscanos;
     }
 
 

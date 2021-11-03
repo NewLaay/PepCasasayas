@@ -15,7 +15,7 @@ $districtjson = json_decode(file_get_contents($api_url . "districts"), true);
 $partyjson = json_decode(file_get_contents($api_url . "parties"), true);
 $votesjson = json_decode(file_get_contents($api_url . "results"), true);
 
-// Creacion de los objetos de distritos, partidos y votos.
+// Creación de las funciones para crear objetos de distritos y partidos.
 
 function crearDistritos($districtjson){
     $distritos = array();
@@ -33,8 +33,42 @@ function crearPartidos($partyjson){
     return $partidos;
 }
 
+// Llamada a las funciones y creación del array de objetos de distritos y partidos.
 $distritos = crearDistritos($districtjson);
 $partidos = crearPartidos($partyjson);
+
+// Lo que tenemos que hacer es recorrer el array de objetos $distritos, y que retorne el distrito cuando coincida con $districtName.
+function getDistrictByDistrictName($districtName){
+    global $distritos;
+    foreach ($distritos as $distrito){
+        if($distrito->getName() == $districtName){
+            return $distrito;
+        }
+    }
+}
+
+// Ahora recorremos el array de objetos $partidos y retornamos el partido cuando coincide con $partyName.
+function getPartyByPartyName($partyName){
+    global $partidos;
+    foreach($partidos as $partido){
+        if($partido->getName() == $partyName){
+            return $partido;
+        }
+    }
+}
+
+// Creación del array de objetos de resultados con los objetos realizados.
+function crearResultados($votesjson){
+    $resultados = array();
+    for($i=0;$i<count($votesjson);$i++){
+        $resultados[$i] = new Resultados(getDistrictByDistrictName($votesjson[$i]["district"]),getPartyByPartyName($votesjson[$i]["party"]), $votesjson[$i]["votes"]);
+    }
+    return $resultados;
+}
+
+$resultados = crearResultados($votesjson);
+
+
 
 ?>
 
