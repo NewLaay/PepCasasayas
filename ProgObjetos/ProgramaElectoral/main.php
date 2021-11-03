@@ -68,6 +68,13 @@ function crearResultados($votesjson){
 
 $resultados = crearResultados($votesjson);
 
+// Ahora tenemos los arrays creados a Objetos. Lo que tenemos que hacer es asignar escaños por provincia segun la Ley d'Hont.
+// Para ello, comprobamos qué partido de la provincia es el que tiene mayor número de votos. Al que tenga mayor número de votos se le asigna un escaño,
+// Y se dividen los votos que tenía entre 2. Ahora, para ver el próximo escaño a repartir tenemos que ver los votos de todos los partidos (y el partido
+// que se le ha repartido un escaño se le miran los votos resultantes de dividir entre 2), y así sucesivamente. El máximo número de escaños a repartir
+// viene definido en delegates de Distrito.
+
+var_dump($resultados);
 
 
 ?>
