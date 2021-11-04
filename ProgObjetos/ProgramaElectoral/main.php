@@ -74,6 +74,17 @@ $resultados = crearResultados($votesjson);
 // que se le ha repartido un escaño se le miran los votos resultantes de dividir entre 2), y así sucesivamente. El máximo número de escaños a repartir
 // viene definido en delegates de Distrito.
 
+function asignarEscanosProvincia($distritos){
+    global $resultados;
+    global $distritos;
+    foreach($distritos as $distrito){
+        if ($resultados->getEscanos() <= $distrito->getDelegates()){
+            
+        }
+
+    }
+}
+
 var_dump($resultados);
 
 
