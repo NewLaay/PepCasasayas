@@ -1,12 +1,12 @@
 <?php
 
-class Resultados
+class Resultado
 {
-    private District $district;
-    private Party $party;
-    private int $votes;
-    private int $escanos;
-    private int $votosEscanos;
+    private $district;
+    private $party;
+    private $votes;
+    private $escanos;
+    private $votosEscanos;
 
     /**
      * @param $district
@@ -15,11 +15,13 @@ class Resultados
      * @param $escanos
      * @param $votosEscanos
      */
-    public function __construct($district, $party, $votes)
+    public function __construct($district, $party, $votes, $escanos, $votosEscanos)
     {
         $this->district = $district;
         $this->party = $party;
         $this->votes = $votes;
+        $this->escanos = $escanos;
+        $this->votosEscanos = $votosEscanos;
     }
 
     /**
@@ -101,7 +103,6 @@ class Resultados
     {
         $this->votosEscanos = $votosEscanos;
     }
-
 
 
 }

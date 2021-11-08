@@ -1,96 +1,5 @@
-<?php
+<!-- HTML copiado de la solución -->
 
-include ("District.php");
-include ("Party.php");
-include ("Resultados.php");
-
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-$api_url = "https://dawsonferrer.com/allabres/apis_solutions/elections/api.php?data=";
-
-$districtjson = json_decode(file_get_contents($api_url . "districts"), true);
-$partyjson = json_decode(file_get_contents($api_url . "parties"), true);
-$votesjson = json_decode(file_get_contents($api_url . "results"), true);
-
-// Creación de las funciones para crear objetos de distritos y partidos.
-
-function crearDistritos($districtjson){
-    $distritos = array();
-    for($i=0;$i<count($districtjson);$i++){
-        $distritos[$i] = new District($districtjson[$i]["id"],$districtjson[$i]["name"],$districtjson[$i]["delegates"]);
-    }
-    return $distritos;
-}
-
-function crearPartidos($partyjson){
-    $partidos = array();
-    for($i=0;$i<count($partyjson);$i++){
-        $partidos[$i] = new Party($partyjson[$i]["id"],$partyjson[$i]["name"],$partyjson[$i]["acronym"],$partyjson[$i]["logo"]);
-    }
-    return $partidos;
-}
-
-// Llamada a las funciones y creación del array de objetos de distritos y partidos.
-$distritos = crearDistritos($districtjson);
-$partidos = crearPartidos($partyjson);
-
-// Lo que tenemos que hacer es recorrer el array de objetos $distritos, y que retorne el distrito cuando coincida con $districtName.
-function getDistrictByDistrictName($districtName){
-    global $distritos;
-    foreach ($distritos as $distrito){
-        if($distrito->getName() == $districtName){
-            return $distrito;
-        }
-    }
-}
-
-// Ahora recorremos el array de objetos $partidos y retornamos el partido cuando coincide con $partyName.
-function getPartyByPartyName($partyName){
-    global $partidos;
-    foreach($partidos as $partido){
-        if($partido->getName() == $partyName){
-            return $partido;
-        }
-    }
-}
-
-// Creación del array de objetos de resultados con los objetos realizados.
-function crearResultados($votesjson){
-    $resultados = array();
-    for($i=0;$i<count($votesjson);$i++){
-        $resultados[$i] = new Resultados(getDistrictByDistrictName($votesjson[$i]["district"]),getPartyByPartyName($votesjson[$i]["party"]), $votesjson[$i]["votes"]);
-    }
-    return $resultados;
-}
-
-$resultados = crearResultados($votesjson);
-
-// Ahora tenemos los arrays creados a Objetos. Lo que tenemos que hacer es asignar escaños por provincia segun la Ley d'Hont.
-// Para ello, comprobamos qué partido de la provincia es el que tiene mayor número de votos. Al que tenga mayor número de votos se le asigna un escaño,
-// Y se dividen los votos que tenía entre 2. Ahora, para ver el próximo escaño a repartir tenemos que ver los votos de todos los partidos (y el partido
-// que se le ha repartido un escaño se le miran los votos resultantes de dividir entre 2), y así sucesivamente. El máximo número de escaños a repartir
-// viene definido en delegates de Distrito.
-
-function asignarEscanosProvincia($distritos){
-    global $resultados;
-    global $distritos;
-    foreach($distritos as $distrito){
-        if ($resultados->getEscanos() <= $distrito->getDelegates()){
-            
-        }
-
-    }
-}
-
-var_dump($resultados);
-
-
-?>
-
-<!-- Código HTML copiado del Código fuente de la solución -->
 <html lang="es">
 <head>
     <title>Election Results</title>
@@ -109,9 +18,9 @@ var_dump($resultados);
     </style>
 </head>
 <body>
-<form action="index.php" method="post">
-    <select name="district">
-        <option value=''>Selecciona una circumscripción</option>
+<form method="post" action="main.php" >
+    <select name="num" id="result">
+        <option value='0'>Selecciona una circumscripción</option>
         <option  value='1'>Madrid</option>
         <option  value='2'>Barcelona</option>
         <option  value='3'>València</option>
@@ -168,5 +77,155 @@ var_dump($resultados);
     <input type="submit" value="Filtra"/>
 </form>
 <table>
-</table>
-</body>
+    <?php
+
+    include("Resultado.php");
+    include("Party.php");
+    include("District.php");
+
+    $api_url = "https://dawsonferrer.com/allabres/apis_solutions/elections/api.php?data=";
+
+    $resultadosjson = json_decode(file_get_contents($api_url . "results"), true);
+    $partidosjson = json_decode(file_get_contents($api_url . "parties"), true);
+    $distritosjson = json_decode(file_get_contents($api_url . "districts"), true);
+
+    //Creacion de los arrays de objetos de resultados, partidos y resultados.
+    function crearDistritos($distritosjson){
+        $distritos = array();
+        for($i=0;$i<count($distritosjson);$i++){
+            $distritos[$i] = new District($distritosjson[$i]["id"],$distritosjson[$i]["name"],$distritosjson[$i]["delegates"]);
+        }
+        return $distritos;
+    }
+
+    function crearPartidos($partidosjson){
+        $partidos = array();
+        for($i=0;$i<count($partidosjson);$i++){
+            $partidos[$i] = new Party($partidosjson[$i]["id"],$partidosjson[$i]["name"],$partidosjson[$i]["acronym"],$partidosjson[$i]["logo"]);
+        }
+        return $partidos;
+    }
+
+    function crearResultados($resultadosjson){
+        $resultados = array();
+        for($i=0;$i<count($resultadosjson);$i++){
+            $resultados[$i] = new Resultado($resultadosjson[$i]["district"],$resultadosjson[$i]["party"],$resultadosjson[$i]["votes"],0,0);
+        }
+        return $resultados;
+    }
+
+    //Llamada a la funcion para crear los arrays.
+    $distritos = crearDistritos($distritosjson);
+    $partidos = crearPartidos($partidosjson);
+    $resultados = crearResultados($resultadosjson);
+
+
+    // AsignarEscaños segun ley dHont a las Provincias.
+    // https://es.wikipedia.org/wiki/Sistema_D%27Hondt
+    function asignarEscanosProvincia()
+    {
+        global $resultados; //se modificaran sus atributos: $seats y $votesTemp
+        global $distritos; //Aqui estan los asientos disponibles p/ cada provincia y su id.
+
+
+        //Recorrer todas las provincias y guardar su nombre y su número de escaños posibles (definido en delegates)
+        foreach ($distritos as $distrito) {
+            $distritoElegido = $distrito->getName();
+            $numeroEscanos = $distrito->getDelegates();
+            //Creamos contador para evitar superar el maximo de escaños permitidos para cada provincia
+            $contadorEscanos = 0;
+            //Creamos array para almacenar los resultados de cada provincia
+            $resultadosDistrito = array();
+
+            //Guardar los resultados del distrito elegido
+            foreach ($resultados as $resultado) {
+                if ($resultado->getDistrict() == $distritoElegido) {
+                    $resultadosDistrito[] = $resultado;
+                }
+            }
+
+            //Asignacion de escaños hasta que lleguemos al máximo de cada provincia.
+            while ($contadorEscanos < $numeroEscanos) {
+                //En este punto se aplica la Ley d'Hont.
+                // cociente = V / (s+1) .
+                // V representa el numero total de votos recibidos por la lista y s el número de escaños que se lleva de momento (inicialmente 0)
+                // Tenemos que recorrer el array de resultadosDistrito y asignar el cociente a votosEscanos segun formula:
+                foreach ($resultadosDistrito as $resultado) {
+                    $resultado->setVotosEscanos($resultado->getVotes() / ($resultado->getEscanos() + 1));
+                }
+                //Ahora lo que haremos es ordenar el array de resultados en funcion de VotosEscanos.
+                // De esta manera, cada escaño que repartamos sera el que esté en la posicion 0 despues de la ordenacion
+                // que será el que más votos tenga cada vez que se haya repartido el escaño
+                for ($i = 0; $i < count($resultadosDistrito); $i++) {
+                    for ($j = $i + 1; $j < count($resultadosDistrito); $j++) {
+                        if ($resultadosDistrito[$i]->getVotosEscanos() < $resultadosDistrito[$j]->getVotosEscanos()) {
+                            $aux = $resultadosDistrito[$j];
+                            $resultadosDistrito[$j] = $resultadosDistrito[$i];
+                            $resultadosDistrito[$i] = $aux;
+                        }
+                    }
+                }
+
+                //Añadimos el escaño alque tenga mas votos y añadimos uno al contador de escaños
+                $resultadosDistrito[0]->setEscanos($resultadosDistrito[0]->getEscanos() + 1);
+                $contadorEscanos++;
+
+            }
+        }
+    }
+
+    asignarEscanosProvincia();
+
+    //Creacion del formulario para mostrar por pantalla según la opción elegida
+    if (isset($_POST["num"])) {
+        //Condicion de que sea mayor que 0, ya que el num 0 es "Seleeciona una circumscripcion y en ese caso no mostramos nada
+        if ($_POST["num"] > 0) {
+
+            $numElegido = ($_POST["num"]);
+            $nombreDistrito = "";
+
+            //Determinar el nombre del distrito.
+            foreach ($distritos as $distrito) {
+                if ($distrito->getId() == $numElegido) {
+                    $nombreDistrito = $distrito->getName();
+                    break;
+                }
+            }
+            //Imprimir por pantalla la tabla de los resultados elegidos
+            echo " <tr>
+                    <th>Circumscripción</th>
+                    <th>Partido</th>
+                    <th>Votos</th>
+                    <th>Escaños</th>
+               </tr>";
+            foreach ($resultados as $resultado) {
+                if ($resultado->getDistrict() == $nombreDistrito) {
+                    echo "<tr><td>", $nombreDistrito, "</td><td>",  $resultado->getParty(), "</td><td>", $resultado->getVotes(), "</td><td>", $resultado->getEscanos(), "</td></tr>";
+                }
+            }
+        }
+
+    }
+
+    // Asignar los escaños totales que tiene un determinado partido.
+  /*  function asignarEscanosPartido(){
+        global $resultados;
+        global $partidos;
+        global $distritos;
+
+        // Recorrer todos los partidos y guardar su nombre y los escaños totales (que será la suma total de escaños del partido en cada provincia)
+        foreach ($partidos as $partido){
+            $partidoElegido = $partido->getName();
+            $sumaEscanos = 0; // Creamos variable que sumará el total de escaños de cada partido.
+            foreach($resultados as $resultado) {
+                if ($resultado->getParty() == $partidoElegido) {
+                    $sumaEscanos[] = $resultado; //Guardamos los resultados de cada partido.
+                }
+            }
+        }
+
+    }
+
+    // asignarEscanosPartido(); */
+
+    ?>
