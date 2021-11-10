@@ -21,11 +21,12 @@ if ($conn->query($sql) === TRUE) {
 
 $api_url = "https://dawsonferrer.com/allabres/apis_solutions/elections/api.php?data=";
 //Insertar los valores en las tablas creadas de distritos, partidos y resultados.
-$districts = json_decode(file_get_contents($api_url . "districts"), true);
-for($i=0;$i<count($districts); $i++){
-    $sql2 = 'INSERT INTO Districts(id, name, delegates) VALUES '.$districts[$i][0].', "'.$districts[$i][1].'", "'.$districts[$i][2].'"';
+$districtooos = json_decode(file_get_contents($api_url . "districts"), true);
+var_dump($districtooos);
+for($i=0; $i<count($districtooos); $i++){
+    $sql2 = 'INSERT INTO Districts(id, name, delegates) VALUES ('.$districtooos[$i][0].'," '.$districtooos[$i][1].'",'.$districtooos[$i][2].')';
 }
-$conn->close();
+//$conn->close();
 
 
 
