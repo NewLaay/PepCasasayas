@@ -3,9 +3,10 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
+$dbname = "myDBElections";
 
 // Create connection
-$conn = new mysqli($servername, $username, $password);
+$conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
@@ -19,14 +20,60 @@ if ($conn->query($sql) === TRUE) {
     echo "Error creating database: " . $conn->error;
 } */
 
+
 $api_url = "https://dawsonferrer.com/allabres/apis_solutions/elections/api.php?data=";
 //Insertar los valores en las tablas creadas de distritos, partidos y resultados.
-$districtooos = json_decode(file_get_contents($api_url . "districts"), true);
-var_dump($districtooos);
-for($i=0; $i<count($districtooos); $i++){
-    $sql2 = 'INSERT INTO Districts(id, name, delegates) VALUES ('.$districtooos[$i][0].'," '.$districtooos[$i][1].'",'.$districtooos[$i][2].')';
+$districts = json_decode(file_get_contents($api_url . "districts"), true);
+//var_dump($districts);
+/* $sql2 = "";
+for($i=0; $i<count($districts); $i++){
+    $sql2 .= 'INSERT INTO Districts (id, name, delegates) VALUES ("'.$districts[$i]['id'].'","'.$districts[$i]['name'].'",'.$districts[$i]['delegates'].');';
 }
-//$conn->close();
+
+if ($conn->multi_query($sql2) === TRUE) {
+    echo "New record created successfully : Distritos";
+} else {
+    echo "Error: " . $sql2 . "<br>" . $conn->error;
+}
+
+
+$results = json_decode(file_get_contents($api_url . "results"), true);
+$resultadosBD = array();
+$resultadosBD = $results;
+//var_dump($resultadosBD);
+//var_dump($resultadosBD[0]['district']);
+
+$sql3 = "";
+for($i=0;$i<count($resultadosBD);$i++){
+    $sql3 .= 'INSERT INTO Results (district, party, votes) VALUES ("'.$resultadosBD[$i]['district'].'","'.$resultadosBD[$i]['party'].'",'.$resultadosBD[$i]['votes'].');';
+                                  //echo $sql3;
+                                    //distrito es string, partido es String y votos es INT.
+}
+
+if ($conn->multi_query($sql3) === TRUE) {
+    echo "New record created successfully : Resultados";
+} else {
+    echo "Error: " . $sql3 . "<br>" . $conn->error;
+}
+
+$parties = json_decode(file_get_contents($api_url . "parties"), true);
+$sql4 = "";
+//var_dump($parties);
+for($i=0;$i<count($parties);$i++){
+  $sql4 .= 'INSERT INTO Parties (id, name, acronym, logo, colour) VALUES ('.$parties[$i]['id'].',"'.$parties[$i]['name'].'","'.$parties[$i]['acronym'].'","'.$parties[$i]['logo'].'","'.$parties[$i]['colour'].'");';
+  echo $sql4;
+}
+
+if ($conn->multi_query($sql4) === TRUE) {
+    echo "New record created successfully : Partidos";
+} else {
+    echo "Error: " . $sql4 . "<br>" . $conn->error;
+}
+
+
+
+$conn->close();
+*/
 
 
 
