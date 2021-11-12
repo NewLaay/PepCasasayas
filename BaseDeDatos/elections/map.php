@@ -12,6 +12,66 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+//FORMA DE HACER EN TABLAS ASOCIATIVAS.
+// Coger los datos de la base de datos de cada tabla: TABLA DISTRITOS
+function PruebaDistritos(){
+    global $conn;
+
+    $consulta = "SELECT * FROM Districts";
+    $filas = array();
+
+    if($resultado = $conn->query($consulta)){
+        while($fila = $resultado->fetch_assoc()){
+            $filas[] = $fila;
+        }
+        return $filas;
+    }
+}
+$pruebaDistritos = pruebaDistritos();
+//var_dump($pruebaDistritos);
+
+// Coger los datos de la tabla distritos con un FETCH_ALL
+function PruebaDistritos2(){
+    global $conn;
+
+    $consulta = "SELECT * FROM Districts";
+    $filas = array();
+    if($resultado = $conn->query($consulta)){
+        return $resultado->fetch_all(MYSQLI_ASSOC);
+    }
+}
+$pruebaDistritos2 = PruebaDistritos2();
+//var_dump($pruebaDistritos2);
+
+//Datos de PROVINCIAS
+function DatosPartidos(){
+    global $conn;
+
+    $consulta = "SELECT * FROM Parties";
+    $filas = array();
+
+    if($resultado = $conn->query($consulta)){
+        return $resultado->fetch_all(MYSQLI_ASSOC);
+    }
+}
+$pruebaPartidos = DatosPartidos();
+//var_dump($pruebaPartidos);
+
+
+//Datos de RESULTADOS
+function DatosResultados(){
+    global $conn;
+
+    $consulta = "SELECT * FROM Results";
+    $filas = array();
+
+    if($resultado = $conn->query($consulta)){
+        return $resultado->fetch_all(MYSQLI_ASSOC);
+    }
+}
+$pruebaResultados = DatosResultados();
+//var_dump($pruebaResultados);
+
 /* Create database [YA ESTA CREADA]
 $sql = "CREATE DATABASE myDBElections";
 if ($conn->query($sql) === TRUE) {
@@ -88,8 +148,9 @@ include("districts.php");
 
 $results = json_decode(file_get_contents($api_url . "results"), true);
 $parties = json_decode(file_get_contents($api_url . "parties"), true);
-//$districts = json_decode(file_get_contents($api_url . "districts"), true);
 
+//$districts = json_decode(file_get_contents($api_url . "districts"), true);
+//var_dump($parties);
 function castParties(&$value, $key)
 {
     $value = new party($value["id"], $value["name"], $value["acronym"], $value["logo"], $value["colour"]);
