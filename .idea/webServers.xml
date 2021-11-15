@@ -2,15 +2,15 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="6445ce62-5053-4fa0-be55-f26671eccd3b" name="PepCasasayas" url="http://localhost/PepCasasayas">
-        <fileTransfer mountedRoot="$PROJECT_DIR$/../../PepCasasayas" accessType="MOUNT" port="0" />
-      </webServer>
       <webServer id="6dc97101-f259-463c-bc91-d6089e91b3cf" name="servidorPep" url="http://ftp.dawsonferrer.com">
         <fileTransfer host="ftp.dawsonferrer.com" port="21">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>
         </fileTransfer>
+      </webServer>
+      <webServer id="6445ce62-5053-4fa0-be55-f26671eccd3b" name="PepCasasayas" url="http://localhost/PepCasasayas">
+        <fileTransfer mountedRoot="$PROJECT_DIR$/../../PepCasasayas" accessType="MOUNT" port="0" />
       </webServer>
     </option>
   </component>

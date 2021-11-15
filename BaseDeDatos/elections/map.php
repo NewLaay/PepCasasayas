@@ -1,9 +1,10 @@
 <?php
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "myDBElections";
+//MODIFICACION DE BASE DE DATOS
+$servername = "sql480.main-hosting.eu";
+$username = "u850300514_jcasasayas";
+$password = "x43196836F";
+$dbname = "u850300514_jcasasayas";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -73,7 +74,7 @@ $pruebaResultados = DatosResultados();
 //var_dump($pruebaResultados);
 
 /* Create database [YA ESTA CREADA]
-$sql = "CREATE DATABASE myDBElections";
+$sql = "CREATE DATABASE u850300514_jcasasayas";
 if ($conn->query($sql) === TRUE) {
     echo "Database created successfully";
 } else {
@@ -94,7 +95,7 @@ if ($conn->multi_query($sql2) === TRUE) {
     echo "New record created successfully : Distritos";
 } else {
     echo "Error: " . $sql2 . "<br>" . $conn->error;
-}
+} */
 
 
 $results = json_decode(file_get_contents($api_url . "results"), true);
@@ -102,7 +103,7 @@ $resultadosBD = array();
 $resultadosBD = $results;
 //var_dump($resultadosBD);
 //var_dump($resultadosBD[0]['district']);
-
+/*
 $sql3 = "";
 for($i=0;$i<count($resultadosBD);$i++){
     $sql3 .= 'INSERT INTO Results (district, party, votes) VALUES ("'.$resultadosBD[$i]['district'].'","'.$resultadosBD[$i]['party'].'",'.$resultadosBD[$i]['votes'].');';
@@ -117,7 +118,7 @@ if ($conn->multi_query($sql3) === TRUE) {
 }
 
 $parties = json_decode(file_get_contents($api_url . "parties"), true);
-$sql4 = "";
+ $sql4 = "";
 //var_dump($parties);
 for($i=0;$i<count($parties);$i++){
   $sql4 .= 'INSERT INTO Parties (id, name, acronym, logo, colour) VALUES ('.$parties[$i]['id'].',"'.$parties[$i]['name'].'","'.$parties[$i]['acronym'].'","'.$parties[$i]['logo'].'","'.$parties[$i]['colour'].'");';
@@ -133,8 +134,8 @@ if ($conn->multi_query($sql4) === TRUE) {
 
 
 $conn->close();
-*/
 
+*/
 
 
 include("result.php");
