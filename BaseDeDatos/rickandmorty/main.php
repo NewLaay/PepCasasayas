@@ -89,8 +89,48 @@ for($i = 0 ; $i<count($charactersjson); $i++){
 
 
 //COGER LOS DATOS DE LA BASE DE DATOS DE MySQL.
-//Coger datos de la tabla Characters
+//Coger datos de la tabla Characters-> creamos la tabla de Caracteres y le añadimos el array de Episodios
+
+//LO hacemos con un fetch_assoc para tener un array y que sea mas claro, y poder luego añadir el array de episodios
 function BDCharacters(){
+  global $conn;
+
+  $resultado = [];
+  $sql = "SELECT * FROM Characters";
+  $resultados = $conn->query($sql);
+
+  //De esta manera, creamos el objeto donde nos muestra la tabla Characteres tal y como lo tenemos en la BD.
+  for($i = 0; $row = $resultados->fetch_assoc(); $i++){
+      $resultado[$i]['id'] = $row['id'];
+      $resultado[$i]['name'] = $row['name'];
+      $resultado[$i]['status'] = $row['status'];
+      $resultado[$i]['type'] = $row['type'];
+      $resultado[$i]['gender'] = $row['gender'];
+      $resultado[$i]['origin'] = $row['origin'];
+      $resultado[$i]['location'] = $row['location'];
+      $resultado[$i]['image'] = $row['image'];
+      $resultado[$i]['created'] = $row['created'];
+  }
+
+  //Ahora lo que hacemos, es añadir los episodios donde salga cada caracter.
+    $sql = "SELECT * FROM CharEpi";
+    $resultados = $conn->query($sql);
+
+    for($i = 0; $row = $resultados->fetch_assoc(); $i++){
+       for($j = 0; $j<count($resultado);$j++) {
+            if($row['char_id'] == $resultado[$j]['id']){
+                $resultado[$j]['episodes'][] = $row['epis_id'];
+            }
+       }
+    }
+
+    return $resultado;
+}
+$charactersBD = BDCharacters();
+//var_dump($charactersBD);
+
+//A esta tabla de caracteres le faltaria por añadir los episodios en los que aparece cada caracter.
+function BDCharacters2(){
     global $conn;
 
     $consulta = "SELECT * FROM Characters";
@@ -100,8 +140,10 @@ function BDCharacters(){
     }
 }
 
-$charactersBD = BDCharacters();
-//var_dump($charactersBD);
+$charactersBD2 = BDCharacters2();
+//var_dump($charactersBD2);
+
+
 
 //Coger datos de la tabla Episodes
 function BDEpisodes(){
