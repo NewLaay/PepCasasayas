@@ -112,6 +112,12 @@ function BDCharacters(){
       $resultado[$i]['created'] = $row['created'];
   }
 
+  /* Otra manera de hacer el objeto donde se nos muestre la tabla Characteres tal y como lo tenemos en la BD.
+  while($row = $resultados->fetch_assoc()){
+      $res = array('id' => $row['id'], 'name' => $row['name'], 'status' => $row['status'], 'type' => $row['type'], 'gender' => $row['gender'], 'origin' => $row['origin'], 'location' => $row['location'], 'image' => $row['image'], 'created' => $row['created'] );
+      $resultado[] = $res;
+  }
+  */
   //Ahora lo que hacemos, es añadir los episodios donde salga cada caracter.
     $sql = "SELECT * FROM CharEpi";
     $resultados = $conn->query($sql);
@@ -123,7 +129,6 @@ function BDCharacters(){
             }
        }
     }
-
     return $resultado;
 }
 $charactersBD = BDCharacters();
@@ -137,6 +142,8 @@ function BDCharacters2(){
 
     if($resultado = $conn->query($consulta)){
         return $resultado ->fetch_all(MYSQLI_ASSOC);
+
+
     }
 }
 
@@ -150,6 +157,7 @@ function BDEpisodes(){
     global $conn;
 
     $consulta = "SELECT * FROM Episodes";
+
 
     if($resultado = $conn->query($consulta)){
         return $resultado ->fetch_all(MYSQLI_ASSOC);
@@ -237,6 +245,7 @@ function createCharacters($charactersjson)
 
     return $characters;
 }
+
 
 function createLocations($locationsjson)
 {
