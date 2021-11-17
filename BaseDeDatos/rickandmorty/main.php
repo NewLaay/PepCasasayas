@@ -35,7 +35,7 @@ if ($conn->connect_error) {
 
 //REALIZACION DE LOS INSERTS DE CADA TABLA.
 //Insertar caracteres.
-/* $sqlInsertarCharacters = "";
+ /* $sqlInsertarCharacters = "";
 for($i=0;$i<count($charactersjson);$i++){
     $sqlInsertarCharacters .= 'INSERT INTO Characters (id, name, status, type, gender, origin, location, image, created ) VALUES ("'.$charactersjson[$i]['id'].'","'.$charactersjson[$i]['name'].'","'.$charactersjson[$i]['status'].'","'.$charactersjson[$i]['type'].'","'.$charactersjson[$i]['gender'].'",'.$charactersjson[$i]['origin'].','.$charactersjson[$i]['location'].',"'.$charactersjson[$i]['image'].'","'.$charactersjson[$i]['created'].'");';
     echo $sqlInsertarCharacters;
@@ -72,6 +72,20 @@ if($conn->multi_query($sqlInsertarLocations) == TRUE){
     echo "Error  :" .$sqlInsertarLocations . " <br> " .$conn->error;
 } */
 
+//Insertar datos en tabla Characteres - Episodios -> ESTE ES EL IMPORTANTE
+/* $contador = 0;
+for($i = 0 ; $i<count($charactersjson); $i++){
+    for ($j = 0; $j<count($charactersjson[$i]["episodes"]);$j++){
+        $sql = 'INSERT INTO CharEpi (id, char_id, epis_id) VALUES ( "'.$contador.'","'.$charactersjson[$i]['id'].'","'.$charactersjson[$i]['episodes'][$j].'")';
+
+        if($conn->query($sql) === TRUE ){
+            echo "New record created succesfully : CARACTERES-EPISODIOS";
+            $contador++;
+        }else{
+            echo "Error  :" .$sql . " <br> " .$conn->error;
+        }
+    }
+} */
 
 
 //COGER LOS DATOS DE LA BASE DE DATOS DE MySQL.
