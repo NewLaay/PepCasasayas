@@ -91,6 +91,8 @@ function DatosPeliculas(){
             }
         }
     }
+
+
     //Incluimos los actores
     $sql = "SELECT * FROM imdbPeliculaActores";
     $resultados = $conn->query($sql);
