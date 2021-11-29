@@ -42,10 +42,10 @@
 <body>
 <h1> Películas Must See </h1>
 <form method="post" action="main.php" >
-    <select name="num" id="result">
-        <option value='0'>Selecciona un tipo de filtro</option>
-        <option  value='1'>Por calificación</option>
-        <option  value='2'>Por fecha</option>
+    <select name="filterBy" id="filterBy" onchange="filterTypeChange()">
+        <option value=''>Selecciona un tipo de filtro</option>
+        <option  value='calificacion'>Por calificación</option>
+        <option  value='fecha'>Por fecha</option>
     </select>
     <input type="submit" value="Filtra"/>
 </form>
@@ -116,32 +116,38 @@
     //var_dump($peliculasObj);
 
     //FUNCION PARA ORDENAR LISTADO DE PELICULAS POR CALIFICACION
-    function ordenarPeliculaRating($peliculasObj){
-        for($i = 0; $i<count($peliculasObj); $i++){
-            for($j = $i; $j<count($peliculasObj);$j++){
-                if($peliculasObj[$i]["calificacion"]>$peliculasObj[$j]["calificacion"]){
-                    $aux = $peliculasObj[$i];
-                    $peliculasObj[$i] = $peliculasObj[$j];
-                    $peliculasObj[$j] = $aux;
+    function ordenarPeliculaRating($peliculasBD){
+        for($i = 0; $i<count($peliculasBD); $i++){
+            for($j = $i; $j<count($peliculasBD);$j++){
+                if($peliculasBD[$i]["calificacion"]<$peliculasBD[$j]["calificacion"]){
+                    $aux = $peliculasBD[$j];
+                    $peliculasBD[$j] = $peliculasBD[$i];
+                    $peliculasBD[$i] = $aux;
                 }
             }
         }
-        return $peliculasObj;
+        return $peliculasBD;
     }
 
+    $peliculasRating = ordenarPeliculaRating($peliculasBD);
+    //var_dump($peliculasRating);
+
     //FUNCION PARA ORDENAR LISTADO DE PELICULAS POR FECHA
-    function ordenarPeliculaFecha($peliculasObj){
-        for($i = 0; $i<count($peliculasObj);$i++){
-            for($j = $i+1; $j<count($peliculasObj);$j++){
-                if($peliculasObj[$i]["fechaEstreno"]>$peliculasObj[$j]["fechaEstreno"]){
-                    $aux = $peliculasObj[$i];
-                    $peliculasObj[$i] = $peliculasObj[$j];
-                    $peliculasObj[$j] = $aux;
+    function ordenarPeliculaFecha($peliculasBD){
+        for($i = 0; $i<count($peliculasBD);$i++){
+            for($j = $i+1; $j<count($peliculasBD);$j++){
+                if($peliculasBD[$i]["fechaEstreno"]<$peliculasBD[$j]["fechaEstreno"]){
+                    $aux = $peliculasBD[$i];
+                    $peliculasBD[$i] = $peliculasBD[$j];
+                    $peliculasBD[$j] = $aux;
                 }
             }
         }
-        return $peliculasObj;
+        return $peliculasBD;
     }
+
+    $peliculasFecha = ordenarPeliculaFecha($peliculasBD);
+    var_dump($peliculasFecha);
 
     //MAPEO PARA SUSTITUIR LOS ID DE ACTORES, DIRECTORES y GENEROS POR SUS CORRESPONDIENTES NOMBRES.
     function mapeoPeliculas($peliculasObj, $actoresObj, $directoresObj, $generosObj){
@@ -223,6 +229,25 @@
         echo "</tr>";
     }
 
+
+    if(isset($_POST[""])){
+        $choosed = isset($_POST["filterBy"]);
+        switch ($choosed){
+            case "calificacion":
+                mostrarPorCalificacion();
+            case "fecha":
+                mostrarPorFecha();
+        }
+    }
+
+    function mostrarPorCalificacion(){
+
+    }
+
+    function mostrarPorFecha(){
+
+
+    }
 
 
 
