@@ -7,3 +7,4 @@ include "Generos.php";
 include "main.php";
 include "Peliculas.php";
 
+if (isset())

@@ -226,7 +226,7 @@
             echo "<li>",$genero,"</li>";
         }
         echo "</ul></td>";
-        echo "<td><a href='render2.php' target='_blank'><img src='imagenes/",$pel->getImagen(),"'></a></td>";
+        echo "<td><a href='render2.php?id=".$pel->getId()."' target='_blank'><img src='imagenes/",$pel->getImagen(),"'></a></td>";
         echo "</tr>";
     }
 
