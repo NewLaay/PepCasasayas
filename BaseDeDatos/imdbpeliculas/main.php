@@ -53,11 +53,11 @@
 
     <?php
 
-    include("Actores.php");
-    include("Directores.php");
-    include("Generos.php");
-    include("Peliculas.php");
-    include("DB.php");
+    include_once("Actores.php");
+    include_once("Directores.php");
+    include_once("Generos.php");
+    include_once("Peliculas.php");
+    include_once("DB.php");
 
     $actoresBD = DatosActores();
     //var_dump($actoresBD); OK
@@ -230,8 +230,8 @@
         echo "</tr>";
     }
 
-
-    if(isset($_POST[""])){
+//Esto será segunda parte de proyecto.
+    /* if(isset($_POST[""])){
         $choosed = isset($_POST["filterBy"]);
         switch ($choosed){
             case "calificacion":
@@ -249,7 +249,7 @@
 
 
     }
-
+*/
 
 
     ?>
