@@ -10,6 +10,7 @@ class Peliculas
     private $actores; //aray de Objetos
     private $directores; //array de Objetos
     private $genero; //array de Objetos
+    private $trailer;
 
     /**
      * @param $id
@@ -21,7 +22,7 @@ class Peliculas
      * @param $directores
      * @param $genero
      */
-    public function __construct($id, $nombre, $calificacion, $imagen, $fechaEstreno, $actores, $directores, $genero)
+    public function __construct($id, $nombre, $calificacion, $imagen, $fechaEstreno, $actores, $directores, $genero, $trailer)
     {
         $this->id = $id;
         $this->nombre = $nombre;
@@ -31,6 +32,7 @@ class Peliculas
         $this->actores = $actores;
         $this->directores = $directores;
         $this->genero = $genero;
+        $this->trailer = $trailer;
     }
 
     /**
@@ -159,6 +161,22 @@ class Peliculas
     public function setGenero($genero): void
     {
         $this->genero = $genero;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTrailer()
+    {
+        return $this->trailer;
+    }
+
+    /**
+     * @param mixed $trailer
+     */
+    public function setTrailer($trailer): void
+    {
+        $this->trailer = $trailer;
     }
 
 

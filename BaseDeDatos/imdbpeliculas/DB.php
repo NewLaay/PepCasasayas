@@ -78,7 +78,8 @@ function DatosPeliculas(){
         $resultado[$i]["calificacion"] = $fila["calificacion"];
         $resultado[$i]["imagen"] = $fila["imagen"];
         $resultado[$i]["fechaEstreno"] = $fila["fechaEstreno"];
-    }
+        $resultado[$i]["trailer"] = $fila["trailer"];
+     }
 
     //Incluimos los generos
     $sql = "SELECT * FROM imdbPeliculaGenero";
