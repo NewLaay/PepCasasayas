@@ -1,3 +1,4 @@
+
 <?php
 
 include_once "Actores.php";
@@ -76,5 +77,58 @@ function mapeoPelicula(){
 
 }
 $peliculaMapeada = mapeoPelicula();
-var_dump($peliculaMapeada);
+//var_dump($peliculaMapeada);
 
+?>
+
+<!-- HTML PARA EL RENDER 2 -->
+
+<html lang="es">
+<head>
+    <title> PELICULA - <?php foreach($peliculaObj as $pel){
+        echo $pel->getNombre();
+        } ?></title>
+    <style>
+        body{
+            width: 100%;
+            height: 100%;
+           background:linear-gradient(darkgray,gray);
+        }
+
+        h1{
+            text-align: center;
+            font-family: "Droid Sans Mono";
+            color: yellow;
+            font-weight: bold;
+            font-size: 75px;
+        }
+
+        h2{
+            text-align: center;
+        }
+
+        h3{
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body>
+    <h1><?php
+        foreach($peliculaObj as $pel){
+            echo $pel->getNombre();
+        }?></h1>
+    <h2>
+        <?php
+        foreach($peliculaObj as $pel){
+            echo "<iframe width='660' height='415' src='".$pel->getTrailer()."' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>";
+        }
+        ?>
+    </h2>
+    <h3>
+        <?php foreach($peliculaObj as $pel){
+            echo $pel->getCalificacion()."/10";
+        }; ?>
+    </h3>
+
+</body>
