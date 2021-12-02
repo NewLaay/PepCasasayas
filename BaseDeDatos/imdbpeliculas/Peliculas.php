@@ -11,6 +11,7 @@ class Peliculas
     private array $directores; //array de Objetos
     private array $genero; //array de Objetos
     private $trailer;
+    private $sinopsis;
 
     /**
      * @param $id
@@ -22,7 +23,7 @@ class Peliculas
      * @param $directores
      * @param $genero
      */
-    public function __construct($id, $nombre, $calificacion, $imagen, $fechaEstreno, $actores, $directores, $genero, $trailer)
+    public function __construct($id, $nombre, $calificacion, $imagen, $fechaEstreno, $actores, $directores, $genero, $trailer, $sinopsis)
     {
         $this->id = $id;
         $this->nombre = $nombre;
@@ -33,6 +34,7 @@ class Peliculas
         $this->directores = $directores;
         $this->genero = $genero;
         $this->trailer = $trailer;
+        $this->sinopsis = $sinopsis;
     }
 
     /**
@@ -177,6 +179,22 @@ class Peliculas
     public function setTrailer($trailer): void
     {
         $this->trailer = $trailer;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSinopsis()
+    {
+        return $this->sinopsis;
+    }
+
+    /**
+     * @param mixed $sinopsis
+     */
+    public function setSinopsis($sinopsis): void
+    {
+        $this->sinopsis = $sinopsis;
     }
 
 

@@ -79,6 +79,7 @@ function DatosPeliculas(){
         $resultado[$i]["imagen"] = $fila["imagen"];
         $resultado[$i]["fechaEstreno"] = $fila["fechaEstreno"];
         $resultado[$i]["trailer"] = $fila["trailer"];
+        $resultado[$i]["sinopsis"] = $fila["sinopsis"];
      }
 
     //Incluimos los generos
@@ -135,6 +136,7 @@ function DatosPelicula($id){
         $resultado[$i]["imagen"] = $fila["imagen"];
         $resultado[$i]["fechaEstreno"] = $fila["fechaEstreno"];
         $resultado[$i]["trailer"] = $fila["trailer"];
+        $resultado[$i]["sinopsis"] = $fila["sinopsis"];
     }
 
     //Incluimos los generos

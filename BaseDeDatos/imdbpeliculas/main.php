@@ -107,7 +107,7 @@
 
     function crearPeliculas($peliculasBD){
         for($i = 0; $i<count($peliculasBD); $i++){
-            $peliculas[$i] = new Peliculas($peliculasBD[$i]["id"],$peliculasBD[$i]["nombre"],$peliculasBD[$i]["calificacion"],$peliculasBD[$i]["imagen"],$peliculasBD[$i]["fechaEstreno"],$peliculasBD[$i]["actores"],$peliculasBD[$i]["directores"],$peliculasBD[$i]["genero"],$peliculasBD[$i]["trailer"]);
+            $peliculas[$i] = new Peliculas($peliculasBD[$i]["id"],$peliculasBD[$i]["nombre"],$peliculasBD[$i]["calificacion"],$peliculasBD[$i]["imagen"],$peliculasBD[$i]["fechaEstreno"],$peliculasBD[$i]["actores"],$peliculasBD[$i]["directores"],$peliculasBD[$i]["genero"],$peliculasBD[$i]["trailer"],$peliculasBD[$i]["sinopsis"]);
         }
         return $peliculas;
     }

@@ -22,7 +22,7 @@ $peliculaBDEscogida = DatosPelicula($movieElegida);
 //Creamos el objeto
 function crearPelicula($peliculaBDEscogida){
     for($i = 0; $i<count($peliculaBDEscogida); $i++){
-        $peliculas[$i] = new Peliculas($peliculaBDEscogida[$i]["id"],$peliculaBDEscogida[$i]["nombre"],$peliculaBDEscogida[$i]["calificacion"],$peliculaBDEscogida[$i]["imagen"],$peliculaBDEscogida[$i]["fechaEstreno"],$peliculaBDEscogida[$i]["actores"],$peliculaBDEscogida[$i]["directores"],$peliculaBDEscogida[$i]["genero"],$peliculaBDEscogida[$i]["trailer"]);
+        $peliculas[$i] = new Peliculas($peliculaBDEscogida[$i]["id"],$peliculaBDEscogida[$i]["nombre"],$peliculaBDEscogida[$i]["calificacion"],$peliculaBDEscogida[$i]["imagen"],$peliculaBDEscogida[$i]["fechaEstreno"],$peliculaBDEscogida[$i]["actores"],$peliculaBDEscogida[$i]["directores"],$peliculaBDEscogida[$i]["genero"],$peliculaBDEscogida[$i]["trailer"],$peliculaBDEscogida[$i]["sinopsis"]);
     }
     return $peliculas;
 }
@@ -109,7 +109,43 @@ $peliculaMapeada = mapeoPelicula();
 
         h3{
             text-align: center;
+            box-sizing: border-box;
         }
+
+        .bordeBotones{
+            border-radius: 25px;
+            box-sizing: content-box;
+        }
+
+        h4{
+            text-align: center;
+            color: lightyellow;
+        }
+
+        .contenido{
+            width: 100%;
+        }
+
+        .columnaActores{
+            width: 50%;
+            float: left;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .columnaDirectores{
+            width: 50%;
+            float: right;
+            display: inline-block;
+            text-align: center;
+        }
+
+        p{
+            font-size: xx-large;
+            font-weight: bold;
+            font-family: "DejaVu Serif";
+        }
+
     </style>
 
 </head>
@@ -127,8 +163,48 @@ $peliculaMapeada = mapeoPelicula();
     </h2>
     <h3>
         <?php foreach($peliculaObj as $pel){
+            foreach($pel->getGenero() as $genero){
+                echo "<input type='button' value='$genero'>".'&nbsp&nbsp&nbsp&nbsp&nbsp'."</input>";
+            }
             echo $pel->getCalificacion()."/10";
         }; ?>
     </h3>
+    <h4>
+        <?php foreach($peliculaObj as $pel){
+            echo $pel->getSinopsis();
+        }
+        ?>
+    </h4>
+    <div class="contenido">
+        <div class="columnaActores">
+            <p>Actores</p>
+                <?php
+                    foreach($peliculaObj as $pel){
+                        foreach($pel->getActores() as $actor){
+                            echo $actor."<br>";
+                        }
+                    }
+                ?>
+        </div>
+        <div class="columnaDirectores">
+            <p><?php
+                foreach($peliculaObj as $pel){
+                    if(count($pel->getDirectores()) > 1){
+                        echo "Directores";
+                    }else{
+                        echo "Director";
+                    }
+                }
+                ?></p>
+            <?php
+            foreach($peliculaObj as $pel){
+                foreach($pel->getDirectores() as $director){
+                    echo $director."<br>";
+                }
+            }
+            ?>
+        </div>
+
+    </div>
 
 </body>
