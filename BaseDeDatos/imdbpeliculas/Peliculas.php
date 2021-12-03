@@ -7,9 +7,9 @@ class Peliculas
     private $calificacion;
     private $imagen;
     private $fechaEstreno;
-    private array $actores; //aray de Objetos
-    private array $directores; //array de Objetos
-    private array $genero; //array de Objetos
+    private array $actores;
+    private array $directores;
+    private array $genero;
     private $trailer;
     private $sinopsis;
 
