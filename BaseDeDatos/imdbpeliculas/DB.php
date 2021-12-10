@@ -315,4 +315,4 @@ idPeli int NOT NULL,
 PRIMARY KEY (id),
 FOREIGN KEY (idUser) REFERENCES imdbUsuarios(id),
 FOREIGN KEY (idPeli) REFERENCES imdbPeliculas(id)
-)
+)  */
