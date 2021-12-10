@@ -291,3 +291,28 @@ function DatosPeliculasFechaEstreno(){
     }
     return $resultado;
 }
+
+/* Creacion de las tablas para el control de los usuarios.
+Lo hacemos directamente en el WorkBench (copiamos la sentencia)
+
+
+CREATE TABLE imdbComentarios(
+id int NOT NULL,
+comentario varchar(255),
+idUser int NOT NULL,
+idPeli int NOT NULL,
+PRIMARY KEY (id),
+FOREIGN KEY (idUser) REFERENCES imdbUsuarios(id),
+FOREIGN KEY (idPeli) REFERENCES imdbPeliculas(id)
+)
+
+LA TABLA VOTOS SOLO ACEPTARA VOTOS ENTEROS DEL 0 AL 10. (LO TENEMOS QUE HACER A LA HORA DE METER LOS INSERTS)
+CREATE TABLE imdbVotos(
+id int NOT NULL,
+voto int,
+idUser int NOT NULL,
+idPeli int NOT NULL,
+PRIMARY KEY (id),
+FOREIGN KEY (idUser) REFERENCES imdbUsuarios(id),
+FOREIGN KEY (idPeli) REFERENCES imdbPeliculas(id)
+)
