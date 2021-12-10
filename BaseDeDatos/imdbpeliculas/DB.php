@@ -178,3 +178,116 @@ function DatosPelicula($id){
     return $resultado;
 
 }
+
+//Metemos order by para ordenar por calificacion.
+function DatosPeliculasCalificacion(){
+    global $conn;
+
+    $resultado = [];
+    $sql = "SELECT * FROM imdbPeliculas order by calificacion desc";
+    $resultados = $conn->query($sql);
+
+    for($i = 0; $fila = $resultados->fetch_assoc(); $i++){
+        $resultado[$i]["id"] = $fila["id"];
+        $resultado[$i]["nombre"] = $fila["nombre"];
+        $resultado[$i]["calificacion"] = $fila["calificacion"];
+        $resultado[$i]["imagen"] = $fila["imagen"];
+        $resultado[$i]["fechaEstreno"] = $fila["fechaEstreno"];
+        $resultado[$i]["trailer"] = $fila["trailer"];
+        $resultado[$i]["sinopsis"] = $fila["sinopsis"];
+    }
+
+    //Incluimos los generos
+    $sql = "SELECT * FROM imdbPeliculaGenero";
+    $resultados = $conn->query($sql);
+
+    for($i = 0; $fila = $resultados->fetch_assoc(); $i++){
+        for($j = 0; $j<count($resultado);$j++){
+            if($fila["pel_id"] == $resultado[$j]["id"]){
+                $resultado[$j]["genero"][] = $fila["gen_id"];
+            }
+        }
+    }
+
+
+    //Incluimos los actores
+    $sql = "SELECT * FROM imdbPeliculaActores";
+    $resultados = $conn->query($sql);
+
+    for($i = 0; $fila = $resultados->fetch_assoc(); $i++){
+        for($j = 0; $j<count($resultado); $j++){
+            if($fila["pel_id"] == $resultado[$j]["id"]){
+                $resultado[$j]["actores"][] = $fila["act_id"];
+            }
+        }
+    }
+
+    //Incluimos los directores
+    $sql = "SELECT * FROM imdbPeliculaDirector";
+    $resultados = $conn->query($sql);
+
+    for($i = 0; $fila = $resultados->fetch_assoc(); $i++){
+        for($j = 0; $j<count($resultado); $j++){
+            if($fila["pel_id"] == $resultado[$j]["id"]){
+                $resultado[$j]["directores"][] = $fila["dir_id"];
+            }
+        }
+    }
+    return $resultado;
+}
+
+function DatosPeliculasFechaEstreno(){
+    global $conn;
+
+    $resultado = [];
+    $sql = "SELECT * FROM imdbPeliculas order by fechaEstreno desc";
+    $resultados = $conn->query($sql);
+
+    for($i = 0; $fila = $resultados->fetch_assoc(); $i++){
+        $resultado[$i]["id"] = $fila["id"];
+        $resultado[$i]["nombre"] = $fila["nombre"];
+        $resultado[$i]["calificacion"] = $fila["calificacion"];
+        $resultado[$i]["imagen"] = $fila["imagen"];
+        $resultado[$i]["fechaEstreno"] = $fila["fechaEstreno"];
+        $resultado[$i]["trailer"] = $fila["trailer"];
+        $resultado[$i]["sinopsis"] = $fila["sinopsis"];
+    }
+
+    //Incluimos los generos
+    $sql = "SELECT * FROM imdbPeliculaGenero";
+    $resultados = $conn->query($sql);
+
+    for($i = 0; $fila = $resultados->fetch_assoc(); $i++){
+        for($j = 0; $j<count($resultado);$j++){
+            if($fila["pel_id"] == $resultado[$j]["id"]){
+                $resultado[$j]["genero"][] = $fila["gen_id"];
+            }
+        }
+    }
+
+
+    //Incluimos los actores
+    $sql = "SELECT * FROM imdbPeliculaActores";
+    $resultados = $conn->query($sql);
+
+    for($i = 0; $fila = $resultados->fetch_assoc(); $i++){
+        for($j = 0; $j<count($resultado); $j++){
+            if($fila["pel_id"] == $resultado[$j]["id"]){
+                $resultado[$j]["actores"][] = $fila["act_id"];
+            }
+        }
+    }
+
+    //Incluimos los directores
+    $sql = "SELECT * FROM imdbPeliculaDirector";
+    $resultados = $conn->query($sql);
+
+    for($i = 0; $fila = $resultados->fetch_assoc(); $i++){
+        for($j = 0; $j<count($resultado); $j++){
+            if($fila["pel_id"] == $resultado[$j]["id"]){
+                $resultado[$j]["directores"][] = $fila["dir_id"];
+            }
+        }
+    }
+    return $resultado;
+}

@@ -12,7 +12,7 @@
     <style>
 
         body{
-           background: linear-gradient(darkgray,gray);
+           background: gray;
         }
         table, th, td {
             border: 2px solid black;
@@ -43,11 +43,11 @@
 <h1> Películas Must See </h1>
 <form method="post" action="main.php" >
     <select name="filterBy" id="filterBy" onchange="filterTypeChange()">
-        <option value=''>Selecciona un tipo de filtro</option>
+        <option selected value='principal'>Selecciona un tipo de filtro</option>
         <option  value='calificacion'>Por calificación</option>
         <option  value='fecha'>Por fecha</option>
     </select>
-    <input type="submit" value="Filtra"/>
+    <button class="btn btn-outline-success" type="submit">Filtra</button>
 </form>
 <table>
 
@@ -71,6 +71,11 @@
     $peliculasBD = DatosPeliculas();
     //var_dump($peliculasBD); OK
 
+    $peliculasBDCalificacion = DatosPeliculasCalificacion();
+    //var_dump($peliculasBDCalificacion);
+
+    $peliculasBDFecha = DatosPeliculasFechaEstreno();
+    //var_dump($peliculasBDFecha);
 
     //CREAR LOS OBJETOS ACTORES - DIRECTORES - GENEROS - PELICULAS ( $actoresObj, $directoresObj, $generosObj y $peliculasObj)
     function crearActores($actoresBD){
@@ -115,39 +120,15 @@
     $peliculasObj = crearPeliculas($peliculasBD);
     //var_dump($peliculasObj);
 
-    //FUNCION PARA ORDENAR LISTADO DE PELICULAS POR CALIFICACION
-     function ordenarPeliculaRating($peliculasObj){
-        for($i = 0; $i<count($peliculasObj); $i++){
-            for($j = $i; $j<count($peliculasObj);$j++){
-                if($peliculasObj[$i]->getCalificacion()<$peliculasObj[$j]->getCalificacion()){
-                    $aux = $peliculasObj[$j];
-                    $peliculasObj[$j] = $peliculasObj[$i];
-                    $peliculasObj[$i] = $aux;
-                }
-            }
-        }
-        return $peliculasObj;
-    }
+    //Peliculas por calificacion
+    $peliculasObjCalificacion = [];
+    $peliculasObjCalificacion = crearPeliculas($peliculasBDCalificacion);
+   //var_dump($peliculasObjCalificacion);
 
-    $peliculasRating = ordenarPeliculaRating($peliculasObj);
-     //var_dump($peliculasOrdenadas2);
-
-    //FUNCION PARA ORDENAR LISTADO DE PELICULAS POR FECHA
-    function ordenarPeliculaFecha($peliculasObj){
-        for($i = 0; $i<count($peliculasObj);$i++){
-            for($j = $i+1; $j<count($peliculasObj);$j++){
-                if($peliculasObj[$i]->getFechaEstreno()<$peliculasObj[$j]->getFechaEstreno()){
-                    $aux = $peliculasObj[$i];
-                    $peliculasObj[$i] = $peliculasObj[$j];
-                    $peliculasObj[$j] = $aux;
-                }
-            }
-        }
-        return $peliculasObj;
-    }
-
-    $peliculasFecha = ordenarPeliculaFecha($peliculasObj);
-    //var_dump($peliculasFecha);
+    //Peliculas por fecha
+    $peliculasObjFecha = [];
+    $peliculasObjFecha = crearPeliculas($peliculasBDFecha);
+    //var_dump($peliculasObjFecha);
 
 
     //MAPEO PARA SUSTITUIR LOS ID DE ACTORES, DIRECTORES y GENEROS POR SUS CORRESPONDIENTES NOMBRES.
@@ -194,9 +175,16 @@
     $peliculasMapeadas = mapeoPeliculas($peliculasObj,$actoresObj, $directoresObj, $generosObj);
     //var_dump($peliculasMapeadas);
 
+    $peliculasMapeadasCalificacion = mapeoPeliculas($peliculasObjCalificacion, $actoresObj, $directoresObj, $generosObj);
+    //var_dump($peliculasMapeadasCalificacion);
 
-    //RENDERIZADO - FALTAN LOS FILTROS, IMAGENES Y IR A OTRA PAGINA.
-    echo " <tr>
+    $peliculasMapeadasFecha = mapeoPeliculas($peliculasObjFecha, $actoresObj, $directoresObj, $generosObj);
+    //var_dump($peliculasMapeadasFecha);
+
+    //RENDERIZADO.
+    function render($peliculasObj)
+    {
+        echo " <tr>
                     <th>Película</th>
                     <th>Calificación</th>
                     <th>Fecha de estreno</th>
@@ -206,50 +194,53 @@
                     <th>Portada</th>
                </tr>";
 
-    foreach($peliculasObj as $pel){
-        echo "<tr>";
-        echo "<td>", $pel->getNombre() , "</td>";
-        echo "<td>", $pel->getCalificacion() , "</td>";
-        echo "<td>", $pel->getFechaEstreno() , "</td>";
-        echo "<td><ul>";
-        foreach($pel->getActores() as $actor){
-            echo "<li>", $actor, "</li>";
+        foreach ($peliculasObj as $pel) {
+            echo "<tr>";
+            echo "<td>", $pel->getNombre(), "</td>";
+            echo "<td>", $pel->getCalificacion(), "</td>";
+            echo "<td>", $pel->getFechaEstreno(), "</td>";
+            echo "<td><ul>";
+            foreach ($pel->getActores() as $actor) {
+                echo "<li>", $actor, "</li>";
+            }
+            echo "</ul></td>";
+            echo "<td><ul>";
+            foreach ($pel->getDirectores() as $director) {
+                echo "<li>", $director, "</li>";
+            }
+            echo "</ul></td>";
+            echo "<td><ul>";
+            foreach ($pel->getGenero() as $genero) {
+                echo "<li>", $genero, "</li>";
+            }
+            echo "</ul></td>";
+            echo "<td><a href='render2.php?id=" . $pel->getId() . "' target='_blank'><img src='imagenes/", $pel->getImagen(), "'></a></td>";
+            echo "</tr>";
         }
-        echo "</ul></td>";
-        echo "<td><ul>";
-        foreach($pel->getDirectores() as $director){
-            echo "<li>",$director,"</li>";
-        }
-        echo "</ul></td>";
-        echo "<td><ul>";
-        foreach($pel->getGenero() as $genero){
-            echo "<li>",$genero,"</li>";
-        }
-        echo "</ul></td>";
-        echo "<td><a href='render2.php?id=".$pel->getId()."' target='_blank'><img src='imagenes/",$pel->getImagen(),"'></a></td>";
-        echo "</tr>";
     }
+
+    //RENDER ALEATORIO
+    //render($peliculasObj);
+    //RENDER CALIFICACION
+    //render($peliculasObjCalificacion);
+    //RENDER FECHA DE ESTRENO
+    //render($peliculasObjFecha);
+
 
 //Esto será segunda parte de proyecto.
-    /* if(isset($_POST[""])){
-        $choosed = isset($_POST["filterBy"]);
-        switch ($choosed){
-            case "calificacion":
-                mostrarPorCalificacion();
-            case "fecha":
-                mostrarPorFecha();
-        }
-    }
+     if(isset($_POST["filterBy"])) {
+         switch ($_POST["filterBy"]) {
+             case "principal":
+                 render($peliculasObj);
+                 break;
+             case "calificacion":
+                 render($peliculasObjCalificacion);
+                 break;
+             case "fecha":
+                 render($peliculasObjFecha);
+                 break;
+         }
 
-    function mostrarPorCalificacion(){
-
-    }
-
-    function mostrarPorFecha(){
-
-
-    }
-*/
-
+     }
 
     ?>
