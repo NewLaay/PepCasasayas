@@ -37,10 +37,16 @@
             border 1px solid;
         }
 
+        a{
+            text-align: right;
+        }
+
     </style>
 </head>
 <body>
 <h1> Películas Must See </h1>
+<a href="login.php">Login</a> or
+<a href="signup.php">Signup</a>
 <form method="post" action="main.php" >
     <select name="filterBy" id="filterBy" onchange="filterTypeChange()">
         <option selected value='principal'>Selecciona un tipo de filtro</option>

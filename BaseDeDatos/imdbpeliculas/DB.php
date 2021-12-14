@@ -1,5 +1,6 @@
 <?php
 
+
 $localhost = "sql480.main-hosting.eu";
 $username = "u850300514_jcasasayas";
 $pwd = "x43196836F";
