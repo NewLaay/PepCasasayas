@@ -1,3 +1,30 @@
+
+<?php
+
+    //Asignacion de usuario
+    session_start();
+    require 'DBUsers.php';
+
+    global $conne;
+
+    if(isset($_SESSION['user_id'])){
+        $resultados = $conne->prepare('SELECT id, usuario, password FROM imdbUsuarios WHERE id = :id');
+        $resultados->bindParam(':id',$_SESSION['user_id']);
+        $resultados->execute();
+        $resultados = $resultados->fetch(PDO::FETCH_ASSOC);
+
+        $user = null;
+
+        if(count($resultados)>0){
+            $user = $resultados;
+        }
+    }
+
+?>
+
+
+
+
 <!-- HTML copiado de la solución -->
 
 <html lang="es">
@@ -47,6 +74,11 @@
 <h1> Películas Must See </h1>
 <a href="login.php">Login</a> or
 <a href="signup.php">Signup</a>
+
+<?php
+
+
+?>
 <form method="post" action="main.php" >
     <select name="filterBy" id="filterBy" onchange="filterTypeChange()">
         <option selected value='principal'>Selecciona un tipo de filtro</option>
