@@ -1,3 +1,36 @@
+<?php
+
+//Iniciamos una sesion o reanumados la existente.
+session_start();
+
+require 'DBUsers.php';
+
+global $conne;
+
+if (!empty($_POST['usuario']) && !empty($_POST['password'])){
+    $sql = 'SELECT id, usuario, password from imdbUsuarios WHERE usuario=:usuario';
+    $registros = $conne->prepare($sql);
+    //La funcion bindParam permite vincular un parametro al nombre de la variable especificado
+    $registros->bindParam(':usuario', $_POST['usuario']);
+    $registros->execute();
+    $resultados = $registros->fetch(PDO::FETCH_ASSOC);
+
+    $message = "";
+
+    //El metodo password_verify comprueba que la contraseña coincida con un hash.
+    //El hash de la contraseña se almacena en $resultados, con el acceso a la BD y mediante el fetch asociativo a la password
+    if(count($resultados) > 0 && password_verify($_POST['password'], $resultados['password'])){
+
+        $_SESSION['user_id'] = $resultados['id'];
+        //Enviamos mensaje de usuario correcto.
+        $message = "Conectado satisfactoriamente";
+    } else{
+        $message = "Credenciales erróneas";
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,10 +91,15 @@
 <header>
     <a href="main.php">Ver películas</a>
 </header>
+<?php if(!empty($message)):   ?>
+    <p> <?= $message ?></p>
+<?php endif; ?>
+
 <h1>Login</h1>
+
     <form action="login.php" method="post">
         <input type="text" name="usuario" placeholder="Usuario">
-        <input type="password" name="contraseña" placeholder="Contraseña">
+        <input type="password" name="password" placeholder="Contraseña">
         <input type="submit" value="Enviar">
     </form>
 </body>
