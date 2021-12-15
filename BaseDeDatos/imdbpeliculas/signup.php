@@ -1,15 +1,21 @@
 <?php
-   require 'DBUsers.php';
-    global $conne;
-    $message = "";
 
+require 'DBUsers.php';
+
+global $conne;
+
+$message = "";
     if (!empty($_POST['usuario']) && !empty($_POST['password'])){
         $sql = "INSERT INTO imdbUsuarios (usuario,password) VALUES (:usuario, :password)";
+        //La funcion prepare prepara una sentencia SQL que sera ejecutada con la sentencia execute
         $stmt = $conne->prepare($sql);
-        $stmt->bindParam(':email',$_POST['email']);
+        //La funcion bindParam permite vincular un parametro al nombre de la variable especificado
+        $stmt->bindParam(':usuario',$_POST['usuario']);
+        //Password_hash permite crear un hash de contraseña y usamos el algoritmo BYCRYPT para crear el hash
         $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
         $stmt->bindParam(':password',$password);
 
+        //La funcion execute es la encargada de ejecutar la sentencia preparada.
         if ($stmt->execute()){
             $message = 'Nuevo usuario creado.';
         } else{
@@ -76,10 +82,10 @@
     </style>
 </head>
 <body>
-
+<?php require 'DBUsers.php' ?>
 
 <?php if(!empty($message)):   ?>
-<p> <?php $message ?></p>
+<p> <?= $message ?></p>
 <?php endif; ?>
 
 <header>
@@ -88,8 +94,8 @@
 <h1>Regístrate</h1>
 <form action="signup.php" method="post">
     <input type="text" name="usuario" placeholder="Usuario">
-    <input type="password" name="contraseña" placeholder="Contraseña">
-    <input type="password" name="confirm_contraseña" placeholder="Confirmar contraseña">
+    <input type="password" name="password" placeholder="Contraseña">
+    <input type="password" name="confirm_password" placeholder="Confirmar contraseña">
     <input type="submit" value="Enviar">
 </form>
 </body>
