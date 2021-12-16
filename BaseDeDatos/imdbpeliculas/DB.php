@@ -176,8 +176,21 @@ function DatosPelicula($id){
             }
         }
     }
-    return $resultado;
 
+
+    //Incluimos los comentarios
+    $sql = "SELECT * FROM imdbComentarios ";
+    $resultados = $conn->query($sql);
+
+    for ($i = 0; $fila = $resultados->fetch_assoc(); $i++){
+        for($j = 0; $j<count($resultado);$j++){
+            if($fila["idPeli"] == $resultado[$j]["id"]){
+                $resultado[$j]["comentarios"][] = $fila["comentario"];
+            }
+        }
+    }
+
+    return $resultado;
 }
 
 //Metemos order by para ordenar por calificacion.

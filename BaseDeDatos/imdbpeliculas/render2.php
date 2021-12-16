@@ -140,11 +140,19 @@ $peliculaMapeada = mapeoPelicula();
             text-align: center;
         }
 
+        .comentarios{
+            width: 100%;
+            display: inline-block;
+            text-align: center;
+            color: lightyellow;
+        }
+
         p{
             font-size: xx-large;
             font-weight: bold;
             font-family: "DejaVu Serif";
         }
+
 
     </style>
 
@@ -204,7 +212,12 @@ $peliculaMapeada = mapeoPelicula();
             }
             ?>
         </div>
-
     </div>
+    <br>
+    <div class="contenido">
+        <div class="comentarios">
+            <p>Comentarios</p>
 
+        </div>
+    </div>
 </body>
