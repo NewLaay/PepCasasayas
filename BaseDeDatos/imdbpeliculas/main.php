@@ -72,13 +72,15 @@
 </head>
 <body>
 <h1> Películas Must See </h1>
+
+<?php if(!empty($user)): ?>
+<br>Bienvenido:  <?= $user['usuario'] ?>
+<br>Estas logeado correctamente.
+<a href="logout.php">Logout</a>
+<?php else : ?>
 <a href="login.php">Login</a> or
 <a href="signup.php">Signup</a>
-
-<?php
-
-
-?>
+<?php endif; ?>
 <form method="post" action="main.php" >
     <select name="filterBy" id="filterBy" onchange="filterTypeChange()">
         <option selected value='principal'>Selecciona un tipo de filtro</option>
