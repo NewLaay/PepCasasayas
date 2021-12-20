@@ -12,8 +12,8 @@ class Peliculas
     private array $genero;
     private $trailer;
     private $sinopsis;
-    private array $comentarios;
-    private array $votosUsuarios;
+    //private array $comentarios;
+    //private array $votosUsuarios;
 
     /**
      * @param $id
@@ -25,7 +25,7 @@ class Peliculas
      * @param $directores
      * @param $genero
      */
-    public function __construct($id, $nombre, $calificacion, $imagen, $fechaEstreno, $actores, $directores, $genero, $trailer, $sinopsis, $comentarios, $votosUsuarios)
+    public function __construct($id, $nombre, $calificacion, $imagen, $fechaEstreno, $actores, $directores, $genero, $trailer, $sinopsis)
     {
         $this->id = $id;
         $this->nombre = $nombre;
@@ -37,8 +37,6 @@ class Peliculas
         $this->genero = $genero;
         $this->trailer = $trailer;
         $this->sinopsis = $sinopsis;
-        $this->comentarios = $comentarios;
-        $this->votosUsuarios = $votosUsuarios;
     }
 
     /**

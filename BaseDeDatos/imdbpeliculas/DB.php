@@ -81,7 +81,7 @@ function DatosPeliculas(){
         $resultado[$i]["fechaEstreno"] = $fila["fechaEstreno"];
         $resultado[$i]["trailer"] = $fila["trailer"];
         $resultado[$i]["sinopsis"] = $fila["sinopsis"];
-     }
+    }
 
     //Incluimos los generos
     $sql = "SELECT * FROM imdbPeliculaGenero";
@@ -308,8 +308,6 @@ function DatosPeliculasFechaEstreno(){
 
 /* Creacion de las tablas para el control de los usuarios.
 Lo hacemos directamente en el WorkBench (copiamos la sentencia)
-
-
 CREATE TABLE imdbComentarios(
 id int NOT NULL,
 comentario varchar(255),
@@ -319,7 +317,6 @@ PRIMARY KEY (id),
 FOREIGN KEY (idUser) REFERENCES imdbUsuarios(id),
 FOREIGN KEY (idPeli) REFERENCES imdbPeliculas(id)
 )
-
 LA TABLA VOTOS SOLO ACEPTARA VOTOS ENTEROS DEL 0 AL 10. (LO TENEMOS QUE HACER A LA HORA DE METER LOS INSERTS)
 CREATE TABLE imdbVotos(
 id int NOT NULL,

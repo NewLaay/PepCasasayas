@@ -1,24 +1,24 @@
 
 <?php
 
-    //Asignacion de usuario
-    session_start();
-    require 'DBUsers.php';
+//Asignacion de usuario
+session_start();
+require 'DBUsers.php';
 
-    global $conne;
+global $conne;
 
-    if(isset($_SESSION['user_id'])){
-        $resultados = $conne->prepare('SELECT id, usuario, password FROM imdbUsuarios WHERE id = :id');
-        $resultados->bindParam(':id',$_SESSION['user_id']);
-        $resultados->execute();
-        $resultados = $resultados->fetch(PDO::FETCH_ASSOC);
+if(isset($_SESSION['user_id'])){
+    $resultados = $conne->prepare('SELECT id, usuario, password FROM imdbUsuarios WHERE id = :id');
+    $resultados->bindParam(':id',$_SESSION['user_id']);
+    $resultados->execute();
+    $resultados = $resultados->fetch(PDO::FETCH_ASSOC);
 
-        $user = null;
+    $user = null;
 
-        if(count($resultados)>0){
-            $user = $resultados;
-        }
+    if(count($resultados)>0){
+        $user = $resultados;
     }
+}
 
 ?>
 
@@ -39,7 +39,7 @@
     <style>
 
         body{
-           background: gray;
+            background: gray;
         }
         table, th, td {
             border: 2px solid black;
@@ -74,12 +74,12 @@
 <h1> Películas Must See </h1>
 
 <?php if(!empty($user)): ?>
-<br>Bienvenido:  <?= $user['usuario'] ?>
-<br>Estas logeado correctamente.
-<a href="logout.php">Logout</a>
+    <br>Bienvenido:  <?= $user['usuario'] ?>
+    <br>Estas logeado correctamente.
+    <a href="logout.php">Logout</a>
 <?php else : ?>
-<a href="login.php">Login</a> or
-<a href="signup.php">Signup</a>
+    <a href="login.php">Login</a> or
+    <a href="signup.php">Signup</a>
 <?php endif; ?>
 <form method="post" action="main.php" >
     <select name="filterBy" id="filterBy" onchange="filterTypeChange()">
@@ -91,140 +91,140 @@
 </form>
 <table>
 
-    <?php
+<?php
 
-    include_once("Actores.php");
-    include_once("Directores.php");
-    include_once("Generos.php");
-    include_once("Peliculas.php");
-    include_once("DB.php");
+include_once("Actores.php");
+include_once("Directores.php");
+include_once("Generos.php");
+include_once("Peliculas.php");
+include_once("DB.php");
 
-    $actoresBD = DatosActores();
-    //var_dump($actoresBD); OK
+$actoresBD = DatosActores();
+//var_dump($actoresBD); OK
 
-    $directoresBD = DatosDirectores();
-    //var_dump($directoresBD);  OK
+$directoresBD = DatosDirectores();
+//var_dump($directoresBD);  OK
 
-    $generosBD = DatosGenerosPeliculas();
-    //var_dump($generosBD);  OK
+$generosBD = DatosGenerosPeliculas();
+//var_dump($generosBD);  OK
 
-    $peliculasBD = DatosPeliculas();
-    //var_dump($peliculasBD); OK
+$peliculasBD = DatosPeliculas();
+//var_dump($peliculasBD); OK
 
-    $peliculasBDCalificacion = DatosPeliculasCalificacion();
-    //var_dump($peliculasBDCalificacion);
+$peliculasBDCalificacion = DatosPeliculasCalificacion();
+//var_dump($peliculasBDCalificacion);
 
-    $peliculasBDFecha = DatosPeliculasFechaEstreno();
-    //var_dump($peliculasBDFecha);
+$peliculasBDFecha = DatosPeliculasFechaEstreno();
+//var_dump($peliculasBDFecha);
 
-    //CREAR LOS OBJETOS ACTORES - DIRECTORES - GENEROS - PELICULAS ( $actoresObj, $directoresObj, $generosObj y $peliculasObj)
-    function crearActores($actoresBD){
-        for($i = 0; $i<count($actoresBD);$i++){
-            $actores[$i] = new Actores($actoresBD[$i]["id"],$actoresBD[$i]["nombre"],$actoresBD[$i]["apellidos"],$actoresBD[$i]["fechaNacimiento"],$actoresBD[$i]["imagen"],$actoresBD[$i]["numOscars"]);
-        }
-        return $actores;
+//CREAR LOS OBJETOS ACTORES - DIRECTORES - GENEROS - PELICULAS ( $actoresObj, $directoresObj, $generosObj y $peliculasObj)
+function crearActores($actoresBD){
+    for($i = 0; $i<count($actoresBD);$i++){
+        $actores[$i] = new Actores($actoresBD[$i]["id"],$actoresBD[$i]["nombre"],$actoresBD[$i]["apellidos"],$actoresBD[$i]["fechaNacimiento"],$actoresBD[$i]["imagen"],$actoresBD[$i]["numOscars"]);
     }
+    return $actores;
+}
 
-    $actoresObj = [];
-    $actoresObj = crearActores($actoresBD);
-    //var_dump($actoresObj); OK
+$actoresObj = [];
+$actoresObj = crearActores($actoresBD);
+//var_dump($actoresObj); OK
 
-    function crearDirectores($directoresBD){
-        for($i = 0; $i<count($directoresBD); $i++){
-            $directores[$i] = new Directores($directoresBD[$i]["id"],$directoresBD[$i]["nombre"],$directoresBD[$i]["apellidos"],$directoresBD[$i]["fechaNacimiento"],$directoresBD[$i]["imagen"],$directoresBD[$i]["peliculasRealizadas"]);
-        }
-        return $directores;
+function crearDirectores($directoresBD){
+    for($i = 0; $i<count($directoresBD); $i++){
+        $directores[$i] = new Directores($directoresBD[$i]["id"],$directoresBD[$i]["nombre"],$directoresBD[$i]["apellidos"],$directoresBD[$i]["fechaNacimiento"],$directoresBD[$i]["imagen"],$directoresBD[$i]["peliculasRealizadas"]);
     }
+    return $directores;
+}
 
-    $directoresObj = [];
-    $directoresObj = crearDirectores($directoresBD);
-    //var_dump($directoresObj);
+$directoresObj = [];
+$directoresObj = crearDirectores($directoresBD);
+//var_dump($directoresObj);
 
-    function crearGeneros($generosBD){
-        for($i = 0; $i<count($generosBD); $i++){
-            $generos[$i] = new Generos($generosBD[$i]["id"],$generosBD[$i]["tipoGenero"]);
-        }
-        return $generos;
+function crearGeneros($generosBD){
+    for($i = 0; $i<count($generosBD); $i++){
+        $generos[$i] = new Generos($generosBD[$i]["id"],$generosBD[$i]["tipoGenero"]);
     }
-    $generosObj = [];
-    $generosObj = crearGeneros($generosBD);
-    //var_dump($generosObj);
+    return $generos;
+}
+$generosObj = [];
+$generosObj = crearGeneros($generosBD);
+//var_dump($generosObj);
 
-    function crearPeliculas($peliculasBD){
-        for($i = 0; $i<count($peliculasBD); $i++){
-            $peliculas[$i] = new Peliculas($peliculasBD[$i]["id"],$peliculasBD[$i]["nombre"],$peliculasBD[$i]["calificacion"],$peliculasBD[$i]["imagen"],$peliculasBD[$i]["fechaEstreno"],$peliculasBD[$i]["actores"],$peliculasBD[$i]["directores"],$peliculasBD[$i]["genero"],$peliculasBD[$i]["trailer"],$peliculasBD[$i]["sinopsis"]);
-        }
-        return $peliculas;
+function crearPeliculas($peliculasBD){
+    for($i = 0; $i<count($peliculasBD); $i++){
+        $peliculas[$i] = new Peliculas($peliculasBD[$i]["id"],$peliculasBD[$i]["nombre"],$peliculasBD[$i]["calificacion"],$peliculasBD[$i]["imagen"],$peliculasBD[$i]["fechaEstreno"],$peliculasBD[$i]["actores"],$peliculasBD[$i]["directores"],$peliculasBD[$i]["genero"],$peliculasBD[$i]["trailer"],$peliculasBD[$i]["sinopsis"]);
     }
-    $peliculasObj = [];
-    $peliculasObj = crearPeliculas($peliculasBD);
-    //var_dump($peliculasObj);
+    return $peliculas;
+}
+$peliculasObj = [];
+$peliculasObj = crearPeliculas($peliculasBD);
+//var_dump($peliculasObj);
 
-    //Peliculas por calificacion
-    $peliculasObjCalificacion = [];
-    $peliculasObjCalificacion = crearPeliculas($peliculasBDCalificacion);
-   //var_dump($peliculasObjCalificacion);
+//Peliculas por calificacion
+$peliculasObjCalificacion = [];
+$peliculasObjCalificacion = crearPeliculas($peliculasBDCalificacion);
+//var_dump($peliculasObjCalificacion);
 
-    //Peliculas por fecha
-    $peliculasObjFecha = [];
-    $peliculasObjFecha = crearPeliculas($peliculasBDFecha);
-    //var_dump($peliculasObjFecha);
+//Peliculas por fecha
+$peliculasObjFecha = [];
+$peliculasObjFecha = crearPeliculas($peliculasBDFecha);
+//var_dump($peliculasObjFecha);
 
 
-    //MAPEO PARA SUSTITUIR LOS ID DE ACTORES, DIRECTORES y GENEROS POR SUS CORRESPONDIENTES NOMBRES.
-    function mapeoPeliculas($peliculasObj, $actoresObj, $directoresObj, $generosObj){
-        //Bucle FOR para cada pelicula.
-        for($i = 0; $i<count($peliculasObj);$i++){
-            $nombreActores = array();
-            $nombreDirectores = array();
-            $nombreGeneros = array();
-            //Bucle for para recorrer actores de cada pelicula y asignar nombre y apellidos cuando el id sea el mismo.
-            for($j = 0; $j<count($actoresObj);$j++){
-                for($k = 0; $k<count($peliculasObj[$i]->getActores());$k++){
-                    if($peliculasObj[$i]->getActores()[$k] == $actoresObj[$j]->getId()){
-                        $nombreActores[$k] = $actoresObj[$j]->getNombre().  " ". $actoresObj[$j]->getApellidos();
-                    }
+//MAPEO PARA SUSTITUIR LOS ID DE ACTORES, DIRECTORES y GENEROS POR SUS CORRESPONDIENTES NOMBRES.
+function mapeoPeliculas($peliculasObj, $actoresObj, $directoresObj, $generosObj){
+    //Bucle FOR para cada pelicula.
+    for($i = 0; $i<count($peliculasObj);$i++){
+        $nombreActores = array();
+        $nombreDirectores = array();
+        $nombreGeneros = array();
+        //Bucle for para recorrer actores de cada pelicula y asignar nombre y apellidos cuando el id sea el mismo.
+        for($j = 0; $j<count($actoresObj);$j++){
+            for($k = 0; $k<count($peliculasObj[$i]->getActores());$k++){
+                if($peliculasObj[$i]->getActores()[$k] == $actoresObj[$j]->getId()){
+                    $nombreActores[$k] = $actoresObj[$j]->getNombre().  " ". $actoresObj[$j]->getApellidos();
                 }
             }
-            $peliculasObj[$i]->setActores($nombreActores);
-
-            //Bucle for para recorrer directores de cada pelicula y asignar nombre y apellidos.
-            for($j = 0; $j<count($directoresObj);$j++){
-                for($k = 0; $k<count($peliculasObj[$i]->getDirectores());$k++){
-                    if($peliculasObj[$i]->getDirectores()[$k] == $directoresObj[$j]->getId()){
-                        $nombreDirectores[$k] = $directoresObj[$j]->getNombre(). " ". $directoresObj[$j]->getApellidos();
-                    }
-                }
-            }
-            $peliculasObj[$i]->setDirectores($nombreDirectores);
-
-            //Bucle for para recorrer generos de cada pelicula y asignar generos.
-            for($j = 0; $j<count($generosObj);$j++){
-                for($k = 0; $k<count($peliculasObj[$i]->getGenero());$k++){
-                    if($peliculasObj[$i]->getGenero()[$k] == $generosObj[$j]->getId()){
-                        $nombreGeneros[$k] = $generosObj[$j]->getTipoGenero();
-                    }
-                }
-            }
-            $peliculasObj[$i]->setGenero($nombreGeneros);
         }
-        return $peliculasObj;
+        $peliculasObj[$i]->setActores($nombreActores);
 
+        //Bucle for para recorrer directores de cada pelicula y asignar nombre y apellidos.
+        for($j = 0; $j<count($directoresObj);$j++){
+            for($k = 0; $k<count($peliculasObj[$i]->getDirectores());$k++){
+                if($peliculasObj[$i]->getDirectores()[$k] == $directoresObj[$j]->getId()){
+                    $nombreDirectores[$k] = $directoresObj[$j]->getNombre(). " ". $directoresObj[$j]->getApellidos();
+                }
+            }
+        }
+        $peliculasObj[$i]->setDirectores($nombreDirectores);
+
+        //Bucle for para recorrer generos de cada pelicula y asignar generos.
+        for($j = 0; $j<count($generosObj);$j++){
+            for($k = 0; $k<count($peliculasObj[$i]->getGenero());$k++){
+                if($peliculasObj[$i]->getGenero()[$k] == $generosObj[$j]->getId()){
+                    $nombreGeneros[$k] = $generosObj[$j]->getTipoGenero();
+                }
+            }
+        }
+        $peliculasObj[$i]->setGenero($nombreGeneros);
     }
+    return $peliculasObj;
 
-    $peliculasMapeadas = mapeoPeliculas($peliculasObj,$actoresObj, $directoresObj, $generosObj);
-    //var_dump($peliculasMapeadas);
+}
 
-    $peliculasMapeadasCalificacion = mapeoPeliculas($peliculasObjCalificacion, $actoresObj, $directoresObj, $generosObj);
-    //var_dump($peliculasMapeadasCalificacion);
+$peliculasMapeadas = mapeoPeliculas($peliculasObj,$actoresObj, $directoresObj, $generosObj);
+//var_dump($peliculasMapeadas);
 
-    $peliculasMapeadasFecha = mapeoPeliculas($peliculasObjFecha, $actoresObj, $directoresObj, $generosObj);
-    //var_dump($peliculasMapeadasFecha);
+$peliculasMapeadasCalificacion = mapeoPeliculas($peliculasObjCalificacion, $actoresObj, $directoresObj, $generosObj);
+//var_dump($peliculasMapeadasCalificacion);
 
-    //RENDERIZADO.
-    function render($peliculasObj)
-    {
-        echo " <tr>
+$peliculasMapeadasFecha = mapeoPeliculas($peliculasObjFecha, $actoresObj, $directoresObj, $generosObj);
+//var_dump($peliculasMapeadasFecha);
+
+//RENDERIZADO.
+function render($peliculasObj)
+{
+    echo " <tr>
                     <th>Película</th>
                     <th>Calificación</th>
                     <th>Fecha de estreno</th>
@@ -234,53 +234,53 @@
                     <th>Portada</th>
                </tr>";
 
-        foreach ($peliculasObj as $pel) {
-            echo "<tr>";
-            echo "<td>", $pel->getNombre(), "</td>";
-            echo "<td>", $pel->getCalificacion(), "</td>";
-            echo "<td>", $pel->getFechaEstreno(), "</td>";
-            echo "<td><ul>";
-            foreach ($pel->getActores() as $actor) {
-                echo "<li>", $actor, "</li>";
-            }
-            echo "</ul></td>";
-            echo "<td><ul>";
-            foreach ($pel->getDirectores() as $director) {
-                echo "<li>", $director, "</li>";
-            }
-            echo "</ul></td>";
-            echo "<td><ul>";
-            foreach ($pel->getGenero() as $genero) {
-                echo "<li>", $genero, "</li>";
-            }
-            echo "</ul></td>";
-            echo "<td><a href='render2.php?id=" . $pel->getId() . "' target='_blank'><img src='imagenes/", $pel->getImagen(), "'></a></td>";
-            echo "</tr>";
+    foreach ($peliculasObj as $pel) {
+        echo "<tr>";
+        echo "<td>", $pel->getNombre(), "</td>";
+        echo "<td>", $pel->getCalificacion(), "</td>";
+        echo "<td>", $pel->getFechaEstreno(), "</td>";
+        echo "<td><ul>";
+        foreach ($pel->getActores() as $actor) {
+            echo "<li>", $actor, "</li>";
         }
+        echo "</ul></td>";
+        echo "<td><ul>";
+        foreach ($pel->getDirectores() as $director) {
+            echo "<li>", $director, "</li>";
+        }
+        echo "</ul></td>";
+        echo "<td><ul>";
+        foreach ($pel->getGenero() as $genero) {
+            echo "<li>", $genero, "</li>";
+        }
+        echo "</ul></td>";
+        echo "<td><a href='render2.php?id=" . $pel->getId() . "' target='_blank'><img src='imagenes/", $pel->getImagen(), "'></a></td>";
+        echo "</tr>";
     }
+}
 
-    //RENDER ALEATORIO
-    //render($peliculasObj);
-    //RENDER CALIFICACION
-    //render($peliculasObjCalificacion);
-    //RENDER FECHA DE ESTRENO
-    //render($peliculasObjFecha);
+//RENDER ALEATORIO
+//render($peliculasObj);
+//RENDER CALIFICACION
+//render($peliculasObjCalificacion);
+//RENDER FECHA DE ESTRENO
+//render($peliculasObjFecha);
 
 
 //Esto será segunda parte de proyecto.
-     if(isset($_POST["filterBy"])) {
-         switch ($_POST["filterBy"]) {
-             case "principal":
-                 render($peliculasObj);
-                 break;
-             case "calificacion":
-                 render($peliculasObjCalificacion);
-                 break;
-             case "fecha":
-                 render($peliculasObjFecha);
-                 break;
-         }
+if(isset($_POST["filterBy"])) {
+    switch ($_POST["filterBy"]) {
+        case "principal":
+            render($peliculasObj);
+            break;
+        case "calificacion":
+            render($peliculasObjCalificacion);
+            break;
+        case "fecha":
+            render($peliculasObjFecha);
+            break;
+    }
 
-     }
+}
 
-    ?>
+?>
