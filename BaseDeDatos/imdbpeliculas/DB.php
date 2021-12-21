@@ -190,6 +190,18 @@ function DatosPelicula($id){
         }
     }
 
+    //Incluimos los votos
+    $sql = "SELECT * FROM imdbVotos";
+    $resultados = $conn->query($sql);
+
+    for($i = 0; $fila = $resultados->fetch_assoc(); $i++){
+        for($j = 0; $j<count($resultado);$j++){
+            if($fila["idPeli"] == $resultado[$j]["id"]){
+                $resultado[$j]["votos"][] = $fila["votoUsuario"];
+            }
+        }
+    }
+
     return $resultado;
 }
 

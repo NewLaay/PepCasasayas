@@ -1,6 +1,39 @@
 
 <?php
 
+global $conne;
+
+if(isset($_SESSION['user_id'])){
+    $resultados = $conne->prepare('SELECT id, usuario, password FROM imdbUsuarios WHERE id = :id');
+    $resultados->bindParam(':id',$_SESSION['user_id']);
+    $resultados->execute();
+    $resultados = $resultados->fetch(PDO::FETCH_ASSOC);
+
+    $user = null;
+
+    if(count($resultados)>0){
+        $user = $resultados;
+    }
+}
+
+//Sacamos la ID de la pelicula elegida(clicando la imagen).
+if (isset($_GET["id"])){
+    $movieElegida = $_GET["id"];
+}
+
+if(isset($_POST['submit'])){
+    $textAreaValue = trim($_POST['content']);
+
+    //Insertar comentario, usuario y id de la pelicula.
+    $sql = "Insert into imdbComentarios (comentario, usuario, idPeli) values (".$textAreaValue.",".$user.",".$movieElegida.")";
+    $rs = mysqli_query($conne,$sql);
+    $affectedRows = mysqli_affected_rows($conne);
+
+    if($affectedRows == 1){
+        $successMsg = "Comentario añadido con éxito";
+    }
+}
+
 include_once "Actores.php";
 include_once "DB.php";
 include_once "Directores.php";
@@ -86,13 +119,13 @@ $peliculaMapeada = mapeoPelicula();
 <html lang="es">
 <head>
     <title> PELICULA - <?php foreach($peliculaObj as $pel){
-        echo $pel->getNombre();
+            echo $pel->getNombre();
         } ?></title>
     <style>
         body{
             width: 100%;
             height: 100%;
-           background:linear-gradient(darkgray,gray);
+            background:linear-gradient(darkgray,gray);
         }
 
         h1{
@@ -158,66 +191,74 @@ $peliculaMapeada = mapeoPelicula();
 
 </head>
 <body>
-    <h1><?php
-        foreach($peliculaObj as $pel){
-            echo $pel->getNombre();
-        }?></h1>
-    <h2>
+<h1><?php
+    foreach($peliculaObj as $pel){
+        echo $pel->getNombre();
+    }?></h1>
+<h2>
+    <?php
+    foreach($peliculaObj as $pel){
+        echo "<iframe width='660' height='415' src='".$pel->getTrailer()."' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>";
+    }
+    ?>
+</h2>
+<h3>
+    <?php foreach($peliculaObj as $pel){
+        foreach($pel->getGenero() as $genero){
+            echo "<input type='button' value='$genero'>".'&nbsp&nbsp&nbsp&nbsp&nbsp'."</input>";
+        }
+        echo $pel->getCalificacion()."/10";
+    }; ?>
+</h3>
+<h4>
+    <?php foreach($peliculaObj as $pel){
+        echo $pel->getSinopsis();
+    }
+    ?>
+</h4>
+<div class="contenido">
+    <div class="columnaActores">
+        <p>Actores</p>
         <?php
         foreach($peliculaObj as $pel){
-            echo "<iframe width='660' height='415' src='".$pel->getTrailer()."' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>";
-        }
-        ?>
-    </h2>
-    <h3>
-        <?php foreach($peliculaObj as $pel){
-            foreach($pel->getGenero() as $genero){
-                echo "<input type='button' value='$genero'>".'&nbsp&nbsp&nbsp&nbsp&nbsp'."</input>";
+            foreach($pel->getActores() as $actor){
+                echo $actor."<br>";
             }
-            echo $pel->getCalificacion()."/10";
-        }; ?>
-    </h3>
-    <h4>
-        <?php foreach($peliculaObj as $pel){
-            echo $pel->getSinopsis();
         }
         ?>
-    </h4>
-    <div class="contenido">
-        <div class="columnaActores">
-            <p>Actores</p>
-                <?php
-                    foreach($peliculaObj as $pel){
-                        foreach($pel->getActores() as $actor){
-                            echo $actor."<br>";
-                        }
-                    }
-                ?>
-        </div>
-        <div class="columnaDirectores">
-            <p><?php
-                foreach($peliculaObj as $pel){
-                    if(count($pel->getDirectores()) > 1){
-                        echo "Directores";
-                    }else{
-                        echo "Director";
-                    }
-                }
-                ?></p>
-            <?php
+    </div>
+    <div class="columnaDirectores">
+        <p><?php
             foreach($peliculaObj as $pel){
-                foreach($pel->getDirectores() as $director){
-                    echo $director."<br>";
+                if(count($pel->getDirectores()) > 1){
+                    echo "Directores";
+                }else{
+                    echo "Director";
                 }
             }
-            ?>
-        </div>
+            ?></p>
+        <?php
+        foreach($peliculaObj as $pel){
+            foreach($pel->getDirectores() as $director){
+                echo $director."<br>";
+            }
+        }
+        ?>
     </div>
-    <br>
-    <div class="contenido">
-        <div class="comentarios">
-            <p>Comentarios</p>
-
-        </div>
+</div>
+<br>
+<!-- Solo mostrar comentarios si estas logeado. -->
+<?php if(!empty($user)): ?>
+<div class="contenido">
+    <div class="comentarios">
+        <form action="" method="post">
+            <label>Comentarios</label><br>
+            <textarea cols="150" rows="5" name="comments" id="para1">
+            </textarea><br>
+            <input type="submit" name="submit" value="Añadir Comentario"/></form>
     </div>
+</div>
 </body>
+
+<?php endif; ?>
+
