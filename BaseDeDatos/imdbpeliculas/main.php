@@ -24,7 +24,6 @@ if(isset($_SESSION['user_id'])){
 
 
 
-
 <!-- HTML copiado de la solución -->
 
 <html lang="es">
