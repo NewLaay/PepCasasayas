@@ -18,7 +18,7 @@ class listModel
     }
 
     //En este punto creamos la conexion y la query para seleccionar listado de hoteles.
-    public function getHotel($id): hotel{
+    /* public function getHotel($id): hotel{
         $sql = "SELECT * FROM mvcHoteles where id = " . $id;
         //Recordamos que db tiene una funcion default que nos conecta con las variables definidas anteriormente
         $this->db->default();
@@ -31,9 +31,9 @@ class listModel
         //Creamos el return y lo devolvemos como variable.
         $return = new hotel($result["id"],$result["nombre"],$result["imagen"],$result["descripcion"],$result["cadena"],$result["habitaciones"],$result["estrellas"],$result["localidad"]);
         return $return;
-    }
+    } */
 
-    //Funcion como la de arriba a mi manera(menos optima obv)
+    //Funcion para sacar un listado de todos los hoteles(menos optima obv)
     public function getHoteles(){
         $resultado = [];
         $sql = "SELECT * FROM mvcHoteles";
@@ -51,5 +51,6 @@ class listModel
         }
         return $resultado;
     }
+
 
 }
