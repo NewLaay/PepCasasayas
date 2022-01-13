@@ -4,7 +4,7 @@
     <title>Lista de los hoteles.</title>
     <style>
         body{
-            background: gray;
+            background: lightblue;
         }
         table, th, td {
             border: 2px solid black;
@@ -28,9 +28,9 @@
         <?
         foreach($hoteles as $hotel){
             echo "<tr>";
-            echo "<td>" , $hotel->getNombre() , "<td>";
-            echo "<td>" , $hotel->getEstrellas() , "<td>";
-            echo "<td>" , $hotel->getLocalidad() , "<td>";
+            echo "<td>" , $hotel->getNombre() , "</td>";
+            echo "<td>" , $hotel->getEstrellas() , "</td>";
+            echo "<td>" , $hotel->getLocalidad() , "</td>";
             echo "<td><a href='listView.phtml?id=" . $hotel->getId() . "' target='_blank'><img src='../imagenes/", $hotel->getImagen(), "'></a></td>";
             echo "</tr>";
         }
