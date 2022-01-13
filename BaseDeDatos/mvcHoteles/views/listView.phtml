@@ -2,16 +2,41 @@
 <html>
 <head>
     <title>Lista de los hoteles.</title>
+    <style>
+        body{
+            background: gray;
+        }
+        table, th, td {
+            border: 2px solid black;
+            color: black;
+            margin: auto;
+        }
+
+
+    </style>
 </head>
 
 <body>
     <h1>Lista de hoteles.</h1>
-    <?
+    <table>
+        <tr>
+            <th>Hotel</th>
+            <th>Estrellas</th>
+            <th>Localidad</th>
+            <th>Imagen</th>
+        </tr>
+        <?
         foreach($hoteles as $hotel){
-            echo $hotel;
+            echo "<tr>";
+            echo "<td>" , $hotel->getNombre() , "<td>";
+            echo "<td>" , $hotel->getEstrellas() , "<td>";
+            echo "<td>" , $hotel->getLocalidad() , "<td>";
+            echo "<td><a href='listView.phtml?id=" . $hotel->getId() . "' target='_blank'><img src='../imagenes/", $hotel->getImagen(), "'></a></td>";
+            echo "</tr>";
         }
-    ?>
-    ?>
+
+        ?>
+    </table>
 </body>
 
 </html>
