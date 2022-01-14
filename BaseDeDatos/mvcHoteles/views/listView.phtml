@@ -31,7 +31,7 @@
             echo "<td>" , $hotel->getNombre() , "</td>";
             echo "<td>" , $hotel->getEstrellas() , "</td>";
             echo "<td>" , $hotel->getLocalidad() , "</td>";
-            echo "<td><a href='listView.phtml?id=" . $hotel->getId() . "' target='_blank'><img src='../imagenes/", $hotel->getImagen(), "'></a></td>";
+            echo "<td><a href='listSingle.php?id=" . $hotel->getId() . "' target='_blank'><img src='../imagenes/", $hotel->getImagen(), "'></a></td>";
             echo "</tr>";
         }
 

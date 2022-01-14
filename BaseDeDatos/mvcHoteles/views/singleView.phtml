@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de los hoteles.</title>
+    <style>
+        body{
+            background: lightblue;
+        }
+        table, th, td {
+            border: 2px solid black;
+            color: black;
+            margin: auto;
+        }
+
+
+    </style>
+</head>
+
+<body>
+<h1>Estás viendo -> Hotel : <? echo $hotel->getNombre(); ?></h1>
+
+<h2> Descripción del hotel</h2>
+<h3> <? echo $hotel->getDescripcion() ?></h3>
+<h2> Habitaciones disponibles</h2>
+<h3> <? echo $hotel->getHabitaciones() ?> </h3>
+</body>
+
+</html>
