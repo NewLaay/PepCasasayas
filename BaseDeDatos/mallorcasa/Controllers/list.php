@@ -1,5 +1,4 @@
 <?php
-
 include_once "../Models/listModel.php";
 
 $model = new listModel();
@@ -22,3 +21,4 @@ session_start();
 
 require_once "../Views/listView.phtml"
 
+?>
