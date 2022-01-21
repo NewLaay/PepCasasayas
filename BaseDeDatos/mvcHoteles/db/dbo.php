@@ -9,6 +9,7 @@ class dbo extends mysqli{
     protected string $password = "x43196836F";
     protected string $database = "u850300514_jcasasayas";
 
+
     public function default(){
         $this->local();
     }

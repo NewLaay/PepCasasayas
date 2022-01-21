@@ -6,6 +6,7 @@ $model = new listModel();
 $hoteles = $model->getHoteles();
 
 
+session_start();
 
 require_once "../views/listView.phtml";
 

@@ -18,6 +18,11 @@
 
 <body>
     <h1>Lista de hoteles.</h1>
+    <?php
+    if (isset($_SESSION["user"])){ ?>
+    <h2><span>Loged in as: <?php echo $_SESSION["user"] ?> </span></h2>
+    <?php } ?>
+
     <table>
         <tr>
             <th>Hotel</th>
