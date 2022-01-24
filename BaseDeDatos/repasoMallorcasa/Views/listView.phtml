@@ -46,7 +46,21 @@
     </style>
 </head>
 <body>
+<section class="head">
+    <div class="container">
+        <?php if (isset($_SESSION["userMail"])) { ?>
+            <h2>Loged in as : <?php echo $_SESSION["userMail"]?></h2>
+        <!-- AQUI FALTA METER MIS PROPIEDADES, CON EL CONTROLADOR DE USUARIO -->
+            <a href="../Controllers/logoutController.php">Logout</a>
+        <?php } else { ?>
+        <a href="../Controllers/loginController.php">Login</a>
+        <a href="../Controllers/signupController.php">Signup</a>
+
+        <?php } ?>
+    </div>
+</section>
 <table>
+    <h1>Listado de casas disponibles</h1>
     <tr>
         <th>ID</th>
         <th>Imagen</th>
@@ -62,13 +76,14 @@
         foreach ($properties as $property){
             echo "<tr>";
             echo "<td>" ,$property->getId() ,"</td>";
-            echo "<td>", $property->getImages()[0]->getUrl();
-            echo "<td>", $property->getCity->getName();
-            echo "<td>", $property->getSurface();
-            echo "<td>", $property->getRooms();
-            echo "<td>", $property->getBathrooms();
-            echo "<td>", $property->getZipcode();
-            echo "<td>", $property->getPrice();
+            echo "<td>", $property->getImages()[0]->getUrl() ,"</td>";
+            echo "<td>", $property->getCity()->getName() ,"</td>";
+            echo "<td>", $property->getSurface() ,"</td>";
+            echo "<td>", $property->getRooms() ,"</td>";
+            echo "<td>", $property->getBathrooms() ,"</td>";
+            echo "<td>", $property->getZipcode() ,"</td>";
+            echo "<td><a href='singleProperty.php?id=".$property->getId() . ">", $property->getPrice() , "</a></td>";
+            echo "<td><a href='singleProperty.php?id=" . $property->getId() . "' target='_blank'>", $property->getPrice(), "</a></td>";
             echo "<tr>";
         }
     ?>

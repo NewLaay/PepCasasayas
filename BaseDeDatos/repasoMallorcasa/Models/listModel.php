@@ -59,6 +59,7 @@ class listModel
     }
 
     public function getUser($id) : user{
+        if(!is_null($id)){
         $sql = "SELECT * FROM users where id = " .$id;
         $this->db->default();
         $query = $this->db->query($sql);
@@ -66,6 +67,8 @@ class listModel
         $result = $query->fetch_assoc();
         $return = new user($result["id"],$result["mail"],$result["password"]);
         return $return;
+        }
+        return new user(0, "-", "-");
     }
 
     public function getImages($propertyId) : array{
@@ -82,7 +85,7 @@ class listModel
 
     public function getProperties(): array{
         $sql = "SELECT * FROM properties where userId IS NULL";
-        $this->db->default;
+        $this->db->default();
         $query = $this->db->query($sql);
         $this->db->close();
         $return = array();

@@ -1,0 +1,79 @@
+<?php
+
+/**
+ * @var array $properties
+ * @var string $property
+ * @var int $selectedPropertyId
+ * @var int $zoom
+ * @var float $selectedLatitude
+ * @var float $selectedLongitude
+ */ ?>
+
+<html>
+<head>
+    <title>Mallorcasa</title>
+    <style>
+
+        body{
+            background: gray;
+        }
+        table, th, td {
+            border: 2px solid black;
+            padding-left: 12px;
+            padding-right: 12px;
+            color: black;
+            margin: auto;
+        }
+
+        th{
+            color: yellow !important;
+        }
+
+        h1{
+            text-align: center;
+            font-family: "Droid Sans Mono";
+            color: yellow;
+            font-weight: bold;
+        }
+
+        form{
+            border 1px solid;
+        }
+
+        a{
+            text-align: right;
+        }
+
+    </style>
+</head>
+<body>
+<table>
+    <h1>Casa escogida</h1>
+    <tr>
+        <th>ID</th>
+        <th>Imagen</th>
+        <th>Ciudad</th>
+        <th>Surface</th>
+        <th>Rooms</th>
+        <th>Bathrooms</th>
+        <th>Zipcode</th>
+        <th>Price</th>
+    </tr>
+
+    <?php
+
+        echo "<tr>";
+        echo "<td>" ,$property->getId() ,"</td>";
+        echo "<td>", $property->getImages()[0]->getUrl();
+        echo "<td>", $property->getCity()->getName();
+        echo "<td>", $property->getSurface();
+        echo "<td>", $property->getRooms();
+        echo "<td>", $property->getBathrooms();
+        echo "<td>", $property->getZipcode();
+        echo "<td>", $property->getPrice();
+        echo "<tr>";
+
+    ?>
+</table>
+</body>
+</html>
