@@ -10,7 +10,9 @@ if (isset($_GET["id"])){
     die("No id selected");
 }
 
-require_once "../Models/singleProperty.php";
+session_start();
+
+require_once "../Views/singleProperty.phtml";
 
 
 ?>

@@ -51,6 +51,7 @@
         <?php if (isset($_SESSION["userMail"])) { ?>
             <h2>Loged in as : <?php echo $_SESSION["userMail"]?></h2>
         <!-- AQUI FALTA METER MIS PROPIEDADES, CON EL CONTROLADOR DE USUARIO -->
+            <a href="../Controllers/userPropertiesController.php">Mis propiedades</a>
             <a href="../Controllers/logoutController.php">Logout</a>
         <?php } else { ?>
         <a href="../Controllers/loginController.php">Login</a>
@@ -82,7 +83,6 @@
             echo "<td>", $property->getRooms() ,"</td>";
             echo "<td>", $property->getBathrooms() ,"</td>";
             echo "<td>", $property->getZipcode() ,"</td>";
-            echo "<td><a href='singleProperty.php?id=".$property->getId() . ">", $property->getPrice() , "</a></td>";
             echo "<td><a href='singleProperty.php?id=" . $property->getId() . "' target='_blank'>", $property->getPrice(), "</a></td>";
             echo "<tr>";
         }
