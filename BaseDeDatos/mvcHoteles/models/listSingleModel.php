@@ -2,6 +2,8 @@
 
 include_once "../entities/hotel.php";
 include_once "../db/dbo.php";
+include_once "../entities/habitacion.php";
+include_once "../entitites/usuario.php";
 
 class listSingleModel
 {
@@ -25,6 +27,12 @@ class listSingleModel
         //Creamos el return y lo devolvemos como variable de un objeto.
         $return = new hotel($result["id"],$result["nombre"],$result["imagen"],$result["descripcion"],$result["cadena"],$result["habitaciones"],$result["estrellas"],$result["localidad"]);
         return $return;
+    }
+
+    //Para comprobar la disponibilidad se podria hacer dos foreach:
+    //http://www.forosdelweb.com/f18/asociar-disponibilidad-habitacion-con-rango-fechas-sql-1093358/
+    public function comprobarDisponibilidad($idHotel, $userId, $fechaEntrada, $fechaSalida){
+
     }
 
 }
