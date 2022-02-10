@@ -9,3 +9,4 @@ if (isset($_GET["user"]) && isset($_GET["password"])){
 } else{
     echo json_encode(new usuario(0, "-", "-"));
 }
+

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de los hoteles.</title>
+    <style>
+        body{
+            background: lightblue;
+        }
+        table, th, td {
+            border: 2px solid black;
+            color: black;
+            margin: auto;
+        }
+
+
+    </style>
+</head>
+
+<body>
+<section class="head">
+    <div class="container">
+        <?php if (isset($_SESSION["userId"])) { ?>
+            <h2>Loged in as : <?php echo $_SESSION["userName"]?></h2>
+            <!-- AQUI FALTA METER MIS PROPIEDADES, CON EL CONTROLADOR DE USUARIO -->
+            <a href="../controllers/logout.php">Logout</a>
+        <?php } else { ?>
+            <a href="../controllers/login.php">Login</a>
+            <a href="../controllers/signup.php">Signup</a>
+
+        <?php } ?>
+    </div>
+</section>
+<h1>Lista de hoteles.</h1>
+<table>
+    <tr>
+        <th>Hotel</th>
+        <th>Estrellas</th>
+        <th>Localidad</th>
+        <th>Imagen</th>
+    </tr>
+    <?
+    foreach($hoteles as $hotel){
+        echo "<tr>";
+        echo "<td>" , $hotel->getNombre() , "</td>";
+        echo "<td>" , $hotel->getEstrellas() , "</td>";
+        echo "<td>" , $hotel->getLocalidad() , "</td>";
+        echo "<td><a href='listSingle.php?id=" . $hotel->getId() . "' target='_blank'><img src='../imagenes/", $hotel->getImagen(), "'></a></td>";
+        echo "</tr>";
+    }
+
+    ?>
+</table>
+</body>
+
+</html>

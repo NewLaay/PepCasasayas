@@ -1,6 +1,5 @@
 <?php
 
-/* Aqui lo unico que creamos la clase dbo y definimos la tabla de base de datos.*/
 
 class dbo extends mysqli{
 
