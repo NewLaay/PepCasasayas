@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de los hoteles.</title>
+    <style>
+        body{
+            background: lightblue;
+        }
+        table, th, td {
+            border: 2px solid black;
+            color: black;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+<?php if (isset($_SESSION["userId"])) {
+    echo "Hola ". $_SESSION["userName"];
+}?>
+
+<h1>Estás viendo -> Hotel : <? echo $property_obj->property->nombre; ?></h1>
+
+<h2> Descripción del hotel</h2>
+<h3> <? echo $property_obj->property->descripcion ?></h3>
+<h2> Habitaciones disponibles</h2>
+<h3> <? echo $property_obj->property->habitaciones ?> </h3>
+</body>
+
+</html>
