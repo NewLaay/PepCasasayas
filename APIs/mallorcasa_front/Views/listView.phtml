@@ -1,0 +1,90 @@
+<?php
+/**
+ * @var array $properties
+ * @var int $selectedPropertyId
+ * @var int $zoom
+ * @var float $selectedLatitude
+ * @var float $selectedLongitude
+ */
+?>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../Styles/main.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <title>Mallorcasa</title>
+</head>
+<body>
+<section class="head">
+    <div class="container">
+        <h2 class="text-center"><span><a href="list.php">Mallorcasa</a></span></h2>
+        <?php if (isset($_SESSION["userMail"])) { ?>
+            <div style="position: absolute; top: 10px; right:10px">
+                <h6 class="text-right"><span>Loged in as: <?php echo $_SESSION["userMail"] ?></span></h6>
+                <a href="../Controllers/userPropertiesController.php" class="btn btn-info btn-round" role="button">
+                    My properties
+                </a>
+                <a href="../Controllers/logoutController.php" class="btn btn-info btn-round" role="button">
+                    Logout
+                </a>
+            </div>
+        <?php } else { ?>
+            <div style="position: absolute; top: 10px; right: 10px">
+                <a href="../Controllers/loginController.php" class="btn btn-info btn-round" role="button">
+                    Login
+                </a>
+                <a href="../Controllers/signupController.php" class="btn btn-info btn-round" role="button">
+                    Sign up
+                </a>
+            </div>
+        <?php } ?>
+    </div>
+</section>
+<div class="clearfix"></div>
+<section class="search-box">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 listing-block">
+                <?php foreach ($properties as $property) { ?>
+                    <div id="property-<?php echo $property->id; ?>" class="media">
+                        <div class="fav-box">
+                            <a href="?propertyId=<?php echo $property->id; ?>">
+                                <i class="fa fa-map-pin " <?php echo($selectedPropertyId == $property->id ? "style='color:red'" : "") ?>
+                                   aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <img class="d-flex align-self-start"
+                             src="<?php echo $property->images[0]->url; ?>"
+                             alt="Generic placeholder image">
+                        <div class="media-body pl-3">
+                            <div class="price">
+                                <a href="singleproperty.php?id=<?php echo $property->id; ?>">
+                                    <?php echo number_format($property->price, 0, ",", "."); ?>€
+                                </a>
+                                <small><?php echo $property->city->name; ?></small>
+                            </div>
+                            <div class="stats">
+                                <span><i class="fa fa-arrows-alt"></i><?php echo $property->surface; ?> m2</span>
+                                <span><i class="fa fa-bed"></i><?php echo $property->rooms; ?> Bedrooms</span>
+                                <span><i class="fa fa-bath"></i><?php echo $property->bathrooms; ?> Bathrooms</span>
+                            </div>
+
+                            <div class="address"><?php echo $property->zipcode; ?>
+                                , <?php echo $property->city->name; ?></div>
+                        </div>
+                    </div>
+                <?php } ?>
+            </div>
+            <div class="col-md-6 map-box mx-0 px-0">
+                <iframe width="100%" height="800" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                        src="https://maps.google.com/maps?q=<?php echo $selectedLatitude ?>,<?php echo $selectedLongitude ?>&hl=es&z=<?php echo $zoom ?>&output=embed"></iframe>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
